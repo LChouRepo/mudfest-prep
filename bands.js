@@ -19,7 +19,63 @@ const BANDS = [
    "一整個世代的宿醉"
   ],
   "spotify": "",
-  "confidence": "high"
+  "confidence": "high",
+  "more": [
+   "布里克兩好三壞",
+   "秘密",
+   "應該",
+   "也許我見不到你了",
+   "月光灑落的地方",
+   "無名氏敬上",
+   "生不沉默, 長成閉嘴",
+   "沒有夜歸人",
+   "我愛您",
+   "破了洞的美夢",
+   "喔 我沒有靈魂",
+   "遜到簡直是個藝術品",
+   "大雨",
+   "如果她離開你 你會不會瘋掉啊",
+   "情歌小品",
+   "推開門直走",
+   "搖滾糾察小隊長",
+   "父親的教誨",
+   "一個隱藏號碼的來電",
+   "地平線之後",
+   "失戀後的那個禮拜",
+   "I Quit",
+   "Intro",
+   "幽靈先生",
+   "I'm a Taiwan Non-Style Rock",
+   "留職停薪",
+   "第一次活",
+   "還給我",
+   "Andy's so Sad",
+   "Last Train Home",
+   "親親寶貝 晚安",
+   "自詡為暗夜偵探的小江",
+   "我的民歌時代",
+   "司機! 請你載我回家",
+   "本日新聞快報",
+   "忘記吧",
+   "忘了把奇蹟帶來",
+   "陰風陣陣",
+   "第一道微風",
+   "第三個酒鬼",
+   "生活的滾動",
+   "他有三百塊",
+   "宮廷鬧劇",
+   "你會漂浮於星夜",
+   "江郎才盡",
+   "進城",
+   "Wss",
+   "關於一些事情",
+   "Casino",
+   "湖",
+   "城市情歌",
+   "悲劇成癮CEO",
+   "Skinhead",
+   "像一張床單一樣坦白"
+  ]
  },
  {
   "name": "無妄合作社",
@@ -39,7 +95,40 @@ const BANDS = [
    "神的孩子都在摔跤"
   ],
   "spotify": "",
-  "confidence": "high"
+  "confidence": "high",
+  "more": [
+   "陰天",
+   "二十一世紀的破青年",
+   "檳榔",
+   "天堂",
+   "No Mercy",
+   "夢遊少女",
+   "在圍城時與你失散",
+   "夢遊少年",
+   "禿頭",
+   "憤怒",
+   "紅孩兒",
+   "精神分析的大師",
+   "賣火柴的大酒鬼 Pt.1",
+   "時間在你面前走",
+   "平靜的告別",
+   "黑色畫家",
+   "賣火柴的大酒鬼",
+   "都出來吧",
+   "賣火柴的大酒鬼 Pt.2",
+   "How Can You Sleep at Night",
+   "我的手不是我的手",
+   "人造人之歌",
+   "秋去冬來",
+   "快樂的葬禮",
+   "河水在你面前流",
+   "揚帆",
+   "迷航",
+   "助禱詞",
+   "小頑皮",
+   "快樂的人在路上走",
+   "審判日"
+  ]
  },
  {
   "name": "溫室雜草",
@@ -61,7 +150,30 @@ const BANDS = [
    "快樂的形狀"
   ],
   "spotify": "https://open.spotify.com/artist/6DZ6tvZTWTDO1vEBvUYfbP",
-  "confidence": "high"
+  "confidence": "high",
+  "more": [
+   "那天我們看著星夜",
+   "正約之歌",
+   "亞細亞的完美人生",
+   "流浪",
+   "Hard to Say",
+   "無能為力",
+   "踏",
+   "Know My Name",
+   "泥巴",
+   "命盤",
+   "How to be a boy",
+   "水槍",
+   "隧道",
+   "Shuffle Kids",
+   "房間",
+   "學士路東",
+   "也許將在明天醒來",
+   "撐過",
+   "嘿嘿抱歉",
+   "雋永之歌",
+   "喔一瞬間"
+  ]
  },
  {
   "name": "普通隊長 Captain Ordinary",
@@ -83,7 +195,36 @@ const BANDS = [
    "Stargazer"
   ],
   "spotify": "https://open.spotify.com/artist/5qJoZTy9eeE8I3U87jtHXo",
-  "confidence": "high"
+  "confidence": "high",
+  "more": [
+   "重新出發",
+   "打氣歌",
+   "短褲精神",
+   "另一邊的你",
+   "Captain Ordinary",
+   "我們",
+   "嘿朋友",
+   "Change",
+   "I Only Want to Be With You",
+   "念你",
+   "懶人",
+   "100 秒的紅燈",
+   "故事",
+   "寂寞歌",
+   "有錢人",
+   "DAMNKIDZ",
+   "修煉愛情",
+   "你會好好的",
+   "No More Beer, No More Shots",
+   "CAPTAIN ORDINARY 2",
+   "ANGER",
+   "熱血感動超激情",
+   "regret",
+   "Taipei Hates Punk",
+   "帥",
+   "SHUFFLE",
+   "Winter’s gone, summer comes"
+  ]
  },
  {
   "name": "BB彈",
@@ -102,7 +243,37 @@ const BANDS = [
    "新生的我"
   ],
   "spotify": "",
-  "confidence": "high"
+  "confidence": "high",
+  "more": [
+   "萬華",
+   "台灣女孩",
+   "幸福的命",
+   "Single",
+   "去台北",
+   "流星花園",
+   "上山",
+   "Bye Bye Baby",
+   "One",
+   "禁愛令",
+   "妳",
+   "媽媽手",
+   "醫生",
+   "肥肥之歌",
+   "不要",
+   "美好生活",
+   "起清瘼",
+   "吡吱拳",
+   "小黑蚊",
+   "走",
+   "自己喝酒",
+   "毛毛歌",
+   "回家路上",
+   "混沌",
+   "酒後失言",
+   "五月二十日",
+   "Morning call",
+   "龐克女孩"
+  ]
  },
  {
   "name": "荒山茉莉",
@@ -144,7 +315,17 @@ const BANDS = [
    "川流"
   ],
   "spotify": "",
-  "confidence": "high"
+  "confidence": "high",
+  "more": [
+   "晚安朋友2021",
+   "小甜甜之歌",
+   "Shit Rule The World",
+   "6535",
+   "魚躍龍門",
+   "人間派對",
+   "Intro",
+   "一蹴而就"
+  ]
  },
  {
   "name": "SADOG",
@@ -165,7 +346,36 @@ const BANDS = [
    "黃泉露"
   ],
   "spotify": "https://open.spotify.com/artist/3qk2tgdZpvroa0LavF8Qjl",
-  "confidence": "mid"
+  "confidence": "mid",
+  "more": [
+   "愛河搖滾樂",
+   "Oh, Goodbye my 愛人",
+   "城市小卡車",
+   "我沒有錢",
+   "愛物語to die",
+   "愛的藝術家",
+   "平凡",
+   "壞狗運",
+   "賊哥的龍宮",
+   "我是一根大熱狗",
+   "技工",
+   "人間",
+   "龐克",
+   "成功的人",
+   "有情飲水飽",
+   "迷路",
+   "你生日關我屁事",
+   "浪人劍客",
+   "我們都是垃圾",
+   "震動你和我",
+   "大後悔",
+   "Today",
+   "十八天",
+   "幽靈車",
+   "一起來喔喔喔",
+   "最後的搖滾樂",
+   "一往情深"
+  ]
  },
  {
   "name": "上山",
@@ -184,7 +394,10 @@ const BANDS = [
    "心臟"
   ],
   "spotify": "",
-  "confidence": "high"
+  "confidence": "high",
+  "more": [
+   "我愛的人"
+  ]
  },
  {
   "name": "打倒三明治",
@@ -207,7 +420,37 @@ const BANDS = [
    "這片海沒有夕陽"
   ],
   "spotify": "",
-  "confidence": "high"
+  "confidence": "high",
+  "more": [
+   "咱的笑容",
+   "壞冷氣難熬醜陋的夏天",
+   "無尾熊派翠克",
+   "在燈火消逝的前夕",
+   "兩輩子的時間",
+   "茶餘飯後",
+   "誠實從來都不是",
+   "心碎症候群",
+   "別輕易帶走我的所有",
+   "不要再聽那些你討厭的歌",
+   "糟糕的我一成不變",
+   "母湯",
+   "火燒袂停",
+   "真誠會讓自己受傷",
+   "茹毛飲血",
+   "矛盾的人",
+   "順行",
+   "臺北空氣濾淨機",
+   "和平的你",
+   "我也很在意啦",
+   "戒斷的苦",
+   "大道",
+   "永信悠然向死而生",
+   "糟糕的我",
+   "內有劇毒的冰巨星",
+   "簡易度日指南",
+   "I Love You so I Kill You",
+   "有機的試煉"
+  ]
  },
  {
   "name": "頂加集會",
@@ -226,7 +469,12 @@ const BANDS = [
    "我還是恨"
   ],
   "spotify": "",
-  "confidence": "high"
+  "confidence": "high",
+  "more": [
+   "今天我們把錢花光光",
+   "你比我愛你還要愛我",
+   "把你做成螃蟹"
+  ]
  },
  {
   "name": "梁河懸",
@@ -245,7 +493,13 @@ const BANDS = [
    "強心針"
   ],
   "spotify": "",
-  "confidence": "high"
+  "confidence": "high",
+  "more": [
+   "界線",
+   "樂園",
+   "Truly Desire",
+   "As You Like"
+  ]
  },
  {
   "name": "無先生",
@@ -264,7 +518,22 @@ const BANDS = [
    "寶島少年"
   ],
   "spotify": "",
-  "confidence": "high"
+  "confidence": "high",
+  "more": [
+   "龐克樂救不了我",
+   "Billy Billy",
+   "殺死無法適應社會的人",
+   "Nature Revolution",
+   "王老先生沒有地",
+   "Golden Record",
+   "島的對面",
+   "玻璃世代",
+   "Voyager 3",
+   "Whatever",
+   "徬徨少年",
+   "Tina",
+   "時勢造英雄"
+  ]
  },
  {
   "name": "徐行",
@@ -283,7 +552,11 @@ const BANDS = [
    "I see hope"
   ],
   "spotify": "",
-  "confidence": "mid"
+  "confidence": "mid",
+  "more": [
+   "長大",
+   "Intro"
+  ]
  },
  {
   "name": "DEFEAT THE GIANT",
@@ -305,7 +578,21 @@ const BANDS = [
    "The Route We Take"
   ],
   "spotify": "",
-  "confidence": "high"
+  "confidence": "high",
+  "more": [
+   "Spun",
+   "From 5 To 7",
+   "Rise, The Morning Sun",
+   "New Heights",
+   "Home",
+   "Searchin' For The Light",
+   "Waiting Line",
+   "Not a Coward, Not a Wretch",
+   "Glory! Glory! Manchester",
+   "Flashback",
+   "The Good Old Days",
+   "The Disorder"
+  ]
  },
  {
   "name": "BUTTER RIOT",
@@ -327,7 +614,18 @@ const BANDS = [
    "RIOT"
   ],
   "spotify": "",
-  "confidence": "high"
+  "confidence": "high",
+  "more": [
+   "迴圈",
+   "路口",
+   "少年",
+   "Always Worth",
+   "Empty Me",
+   "海邊的你",
+   "走",
+   "Stars and Sunshine",
+   "你的力量"
+  ]
  },
  {
   "name": "老貓偵探社",
@@ -347,7 +645,45 @@ const BANDS = [
    "彥旭Boy的Lucky Song"
   ],
   "spotify": "",
-  "confidence": "high"
+  "confidence": "high",
+  "more": [
+   "月球旅行",
+   "冷鋒",
+   "宇宙美景",
+   "小說家",
+   "窮的人類",
+   "打油詩",
+   "國王",
+   "塑膠Boy",
+   "薄情的街頭",
+   "最餓的狗",
+   "鯉魚",
+   "大廈",
+   "山羌",
+   "慢刀",
+   "海豚",
+   "看不到的東西我都相信",
+   "在台南吃便利商店",
+   "荒野求生",
+   "老貓偵探",
+   "愛河",
+   "喔! 我沒有盲腸",
+   "害怕的感覺",
+   "夜遊",
+   "準備出門",
+   "歸來",
+   "鄉下人",
+   "耳朵宇宙先鋒隊",
+   "奇技淫巧",
+   "一寸法師",
+   "動物",
+   "鸚鵡",
+   "加州旅館",
+   "小船",
+   "高尚",
+   "時代",
+   "犬之夢"
+  ]
  },
  {
   "name": "blu mush",
@@ -387,7 +723,11 @@ const BANDS = [
    "手淫俱樂部 Masturbation Club"
   ],
   "spotify": "",
-  "confidence": "high"
+  "confidence": "high",
+  "more": [
+   "懶趴無洗",
+   "養一隻混蛋貓"
+  ]
  },
  {
   "name": "MOTIF HIVE",
@@ -407,7 +747,15 @@ const BANDS = [
    "GROZA"
   ],
   "spotify": "https://open.spotify.com/artist/0TzZGtByDjlFroO4ZX5WnK",
-  "confidence": "high"
+  "confidence": "high",
+  "more": [
+   "White Night",
+   "Limit",
+   "LIE=ALIVE",
+   "Expedition",
+   "Close Touch",
+   "AXIS"
+  ]
  },
  {
   "name": "少年A",
@@ -441,7 +789,13 @@ const BANDS = [
    "Abyss I"
   ],
   "spotify": "",
-  "confidence": "mid"
+  "confidence": "mid",
+  "more": [
+   "Gnome",
+   "...noise",
+   "Mansion",
+   "Abyss II"
+  ]
  },
  {
   "name": "貓拳",
@@ -460,7 +814,14 @@ const BANDS = [
    "小籠包"
   ],
   "spotify": "",
-  "confidence": "mid"
+  "confidence": "mid",
+  "more": [
+   "Nicotine",
+   "Double-Decker Bus",
+   "Xiǎo lóng bāo",
+   "Maru-Sankaku-Shikaku",
+   "Korori"
+  ]
  },
  {
   "name": "梅西的房間",
@@ -544,7 +905,41 @@ const BANDS = [
    "雖然我壞壞 (謝和弦 feat. 固定客)"
   ],
   "spotify": "",
-  "confidence": "high"
+  "confidence": "high",
+  "more": [
+   "兄弟會",
+   "All Money Back My Home",
+   "我毋知影",
+   "顯祖榮宗",
+   "隕落",
+   "自我淪陷",
+   "Self",
+   "劊子手",
+   "傳奇",
+   "信念",
+   "火柴人",
+   "回天",
+   "歲月",
+   "閉嘴",
+   "三寶飯",
+   "照詨回詨",
+   "Hey Ya",
+   "風聲",
+   "20世紀少年",
+   "死了早就死了活著都是騙你的",
+   "社會大學",
+   "ALIVE",
+   "入生",
+   "夢醒0分",
+   "美紅桿",
+   "我們",
+   "輸家",
+   "台灣鯛",
+   "功夫",
+   "21世紀厭世中年",
+   "一生懸命",
+   "憤世忌俗的條件"
+  ]
  },
  {
   "name": "OBSESS",
@@ -565,7 +960,32 @@ const BANDS = [
    "防空洞"
   ],
   "spotify": "",
-  "confidence": "high"
+  "confidence": "high",
+  "more": [
+   "不再回來",
+   "Please Free My Soul and Let It Frigging Fall",
+   "王",
+   "Dear Friend",
+   "重要的是愛",
+   "低端",
+   "We Are So Hard to Try",
+   "保持憤怒",
+   "悲傷的人在唱著哀歌",
+   "權利喪失",
+   "Wasting Time Again",
+   "自食惡果",
+   "Sin",
+   "你現在的生活",
+   "Without pain",
+   "Surrounded by Stars",
+   "Walking in the hell",
+   "Hope",
+   "Wake up Our generation",
+   "我在這裡",
+   "Before the END",
+   "生存專家",
+   "跪"
+  ]
  },
  {
   "name": "八十八顆芭樂籽",
@@ -584,7 +1004,88 @@ const BANDS = [
    "腎上腺素之歌"
   ],
   "spotify": "",
-  "confidence": "high"
+  "confidence": "high",
+  "more": [
+   "追太陽的人",
+   "恭喜你又活下來了一天",
+   "花椰菜之歌",
+   "台北人沒有鄉愁",
+   "女孩",
+   "就請你把我乾杯吧",
+   "銀行關門後",
+   "Jimi & Mary",
+   "甜蜜酸黃瓜",
+   "浮腫的心",
+   "時鐘裡的人",
+   "午夜城市旅人",
+   "深淵",
+   "我要在死之前給你一個飛踢",
+   "野球狂之詩",
+   "跌進沉沉的夢",
+   "NO BLUES NO SMITH",
+   "在海邊",
+   "飄阿飄的",
+   "乾耕的歲月",
+   "参絞刑",
+   "蟬的活力B",
+   "野球乾一杯",
+   "獨立的雕",
+   "21世紀的搖滾樂Style",
+   "這夜晚不是只屬於你一個人的",
+   "台北!台北!",
+   "21 世紀的 Rock N'Roll 的 Style",
+   "今夜我聽著你們的歌爆炸",
+   "沒有同理心",
+   "安特斯兄弟之死",
+   "載海 II",
+   "我變得不一樣了",
+   "電梯反胃之死",
+   "態度",
+   "口白 1",
+   "野球狼",
+   "獵殺牛蒡男",
+   "我們回家吧",
+   "參絞刑",
+   "載海 I",
+   "飛行的豬腳",
+   "Pizza Hell",
+   "中年聖戰士",
+   "星期六",
+   "大鯨魚",
+   "貝爾吉羅斯",
+   "I Hate This World",
+   "質感",
+   "沒窮過怎麼知道什麼是搖滾樂",
+   "偷窺窗外的太陽",
+   "花的耳朵",
+   "人人都是阿辰師",
+   "21 世紀的獸微醺 Style",
+   "吃一些蘑菇變成大馬力歐之類的",
+   "脾氣不好的魚",
+   "真正的愛情",
+   "我是狗你是我的母狗",
+   "我要和棒球做愛",
+   "說教人",
+   "奇明童話",
+   "哭泣的天使",
+   "殘暴的歌",
+   "炸雞之歌",
+   "恨意讓我們相遇,酒精讓我們在一起",
+   "窒息",
+   "地方的 Riff",
+   "紅毛男子漢",
+   "國王的帥哥",
+   "內臟派對",
+   "70 度的酒",
+   "29 歲",
+   "桃子",
+   "沒有窮過怎麼知道什麼是搖滾樂",
+   "飛機上山",
+   "甜蜜的酸黃瓜",
+   "快樂的養雞人",
+   "漩渦",
+   "請不要悲傷在我們狂歡後那一天"
+  ]
  },
  {
   "name": "隨性 Random",
@@ -605,7 +1106,64 @@ const BANDS = [
    "負心人"
   ],
   "spotify": "",
-  "confidence": "high"
+  "confidence": "high",
+  "more": [
+   "亮點",
+   "想你點煙",
+   "欲如何",
+   "田椪花",
+   "重新開始",
+   "中年病",
+   "安捏娘",
+   "光明的出口",
+   "莎喲娜啦",
+   "美麗的所在",
+   "感謝你的陪伴",
+   "拼性命",
+   "傷心的台北市",
+   "打電話",
+   "給頭家的話",
+   "喝醉了",
+   "魔神仔",
+   "我的堅持",
+   "雲中月",
+   "錯過",
+   "青春樂手",
+   "信仰",
+   "可悲的執著",
+   "Broken Zipper",
+   "為妳來愛",
+   "想要改變",
+   "我在這等你",
+   "噴射時代",
+   "謝謝你的愛2016",
+   "藉口",
+   "是按怎",
+   "放水流",
+   "拚未來",
+   "Vivian",
+   "走找良心",
+   "我想欲飛",
+   "思念你",
+   "手放開",
+   "焦慮男孩",
+   "存在感",
+   "善意的謊言",
+   "週轉",
+   "有一天",
+   "打倒柏林圍牆",
+   "白賊話",
+   "出一支嘴",
+   "迷走青春",
+   "親愛的別扼殺我的靈魂",
+   "轉大人",
+   "敢有法度",
+   "人生路途",
+   "沒價值的愛",
+   "別再聯絡",
+   "打結",
+   "你的聲音"
+  ]
  },
  {
   "name": "胖虎 punkhoo",
@@ -642,7 +1200,33 @@ const BANDS = [
    "沒有人要的土地"
   ],
   "spotify": "",
-  "confidence": "mid"
+  "confidence": "mid",
+  "more": [
+   "斷腸人 Live at 光復新村",
+   "玻璃",
+   "辯護",
+   "60km/hr",
+   "哈囉",
+   "五斗米",
+   "90-9-1",
+   "起風了",
+   "異類",
+   "30 Sec.",
+   "English Song",
+   "大山",
+   "戰神",
+   "肉食",
+   "The Good News, the Bad News & the Fake",
+   "正福",
+   "大藝術家",
+   "小鎮",
+   "包袱",
+   "音樂人",
+   "更好的我",
+   "爭寵",
+   "網戀",
+   "Judy"
+  ]
  },
  {
   "name": "眠氣",
@@ -661,7 +1245,14 @@ const BANDS = [
    "請把過去的我埋葬"
   ],
   "spotify": "",
-  "confidence": "mid"
+  "confidence": "mid",
+  "more": [
+   "我的悲是你傷的",
+   "就和你一樣",
+   "世界線",
+   "曼珠沙華",
+   "旭日末文本"
+  ]
  },
  {
   "name": "倒車入庫",
@@ -680,7 +1271,46 @@ const BANDS = [
    "先走了 I Gotta Go"
   ],
   "spotify": "",
-  "confidence": "mid"
+  "confidence": "mid",
+  "more": [
+   "孜孜不倦的人",
+   "瀟灑的人",
+   "地下室",
+   "我比較適合黑暗面",
+   "羅夏墨漬",
+   "惡魔",
+   "老兄",
+   "大象",
+   "留給年輕",
+   "4:44",
+   "殖民家",
+   "夢想是套路",
+   "不用呼吸",
+   "沼澤之王",
+   "另類郊區愛情故事",
+   "老掉牙的結局",
+   "是誰先走了",
+   "造型要故意頹廢",
+   "盆栽",
+   "讓月亮曬到爆開",
+   "買快樂",
+   "在地下室吃檳榔吐血死",
+   "燒香拜佛",
+   "門禁",
+   "羊",
+   "先走了",
+   "我不要打針",
+   "吃檳榔吐血死",
+   "春夢",
+   "瀟灑走一回",
+   "小心你的背後",
+   "車有離合",
+   "前言",
+   "坐困愁城",
+   "喬州雅故",
+   "後記",
+   "拿熱水來潑我吧"
+  ]
  },
  {
   "name": "一點生",
@@ -699,7 +1329,15 @@ const BANDS = [
    "1947"
   ],
   "spotify": "",
-  "confidence": "mid"
+  "confidence": "mid",
+  "more": [
+   "孤墳",
+   "發起點",
+   "水流光影",
+   "少年",
+   "蓬萊仙山",
+   "受害者"
+  ]
  },
  {
   "name": "碎紙花",
@@ -718,7 +1356,14 @@ const BANDS = [
    "尋找的夢"
   ],
   "spotify": "",
-  "confidence": "high"
+  "confidence": "high",
+  "more": [
+   "夢的破碎大道",
+   "Light up點燈",
+   "微笑去面對",
+   "Don't Leave Me Alone",
+   "New Beginning"
+  ]
  },
  {
   "name": "貳伍吸菸所",
@@ -736,7 +1381,20 @@ const BANDS = [
    "總是在地板裡的夢"
   ],
   "spotify": "",
-  "confidence": "mid"
+  "confidence": "mid",
+  "more": [
+   "張㱊的日記",
+   "離別之前",
+   "深夜隧道",
+   "沒有你在的地方",
+   "悲傷鏡",
+   "Intro",
+   "最後一次告解",
+   "十二樓序",
+   "夢遊",
+   "十二樓",
+   "末路"
+  ]
  },
  {
   "name": "粹垢 TRAEGO",
@@ -755,7 +1413,17 @@ const BANDS = [
    "仰會無賣酒"
   ],
   "spotify": "",
-  "confidence": "high"
+  "confidence": "high",
+  "more": [
+   "愛仰仔",
+   "爛日仔",
+   "Chapter.2 酒鬼",
+   "Chapter.3 出庄",
+   "毋係一儕人",
+   "Hakka Sucker",
+   "苗栗怨景",
+   "Chapter.1 上工"
+  ]
  },
  {
   "name": "貓膽汁",
@@ -777,7 +1445,12 @@ const BANDS = [
    "呱呱包"
   ],
   "spotify": "",
-  "confidence": "high"
+  "confidence": "high",
+  "more": [
+   "生活有一百種2024",
+   "毒氣",
+   "TikTok Master"
+  ]
  },
  {
   "name": "旅人",
@@ -799,7 +1472,22 @@ const BANDS = [
    "騷客"
   ],
   "spotify": "",
-  "confidence": "mid"
+  "confidence": "mid",
+  "more": [
+   "山高人小",
+   "破浪",
+   "Taste me Alive",
+   "自虐",
+   "我如何",
+   "黃昏入夜",
+   "金繼",
+   "我們不需要忍耐",
+   "城市荒漠",
+   "寵愛",
+   "拾穗",
+   "自由靈魂",
+   "審判"
+  ]
  },
  {
   "name": "白頻率",
@@ -819,7 +1507,17 @@ const BANDS = [
    "躲貓貓"
   ],
   "spotify": "https://open.spotify.com/artist/4tREKMNVSLyiI0K6IhgHVc",
-  "confidence": "high"
+  "confidence": "high",
+  "more": [
+   "籤",
+   "殘酷",
+   "日全蝕",
+   "Citrus",
+   "搖滾樂",
+   "蘋果",
+   "存在",
+   "FAINT"
+  ]
  },
  {
   "name": "廢埕",
@@ -841,7 +1539,22 @@ const BANDS = [
    "奇技淫巧"
   ],
   "spotify": "",
-  "confidence": "high"
+  "confidence": "high",
+  "more": [
+   "下雨",
+   "奔跑的樹",
+   "時間",
+   "重回血肉之軀",
+   "眼瞼",
+   "籠中鳥",
+   "抽菸",
+   "紅色女王",
+   "平衡",
+   "未命名",
+   "石頭",
+   "七天",
+   "故事"
+  ]
  },
  {
   "name": "深深一擊",
@@ -926,7 +1639,10 @@ const BANDS = [
    "長輩圖"
   ],
   "spotify": "https://open.spotify.com/artist/2TGjPx5sM3bd6MIemTVIyH",
-  "confidence": "high"
+  "confidence": "high",
+  "more": [
+   "同島沒命"
+  ]
  },
  {
   "name": "應聲倒地",
@@ -945,7 +1661,10 @@ const BANDS = [
    "Lost n Found"
   ],
   "spotify": "",
-  "confidence": "high"
+  "confidence": "high",
+  "more": [
+   "白日夢"
+  ]
  },
  {
   "name": "The Salitus",
@@ -966,7 +1685,14 @@ const BANDS = [
    "Your Name"
   ],
   "spotify": "",
-  "confidence": "high"
+  "confidence": "high",
+  "more": [
+   "Canvas",
+   "Sweet Home",
+   "Light and Hope",
+   "Reply to you",
+   "Carry On"
+  ]
  },
  {
   "name": "銀杏中年",

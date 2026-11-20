@@ -75,6 +75,8 @@ nav button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
 .tags{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
 .tag{font-size:12px;font-weight:700;border:1.5px solid var(--ink);border-radius:99px;padding:1px 8px}
 .desc{margin:6px 0}
+.more-songs{display:block;margin:10px auto 0;font:700 13px var(--body);color:var(--ink);background:none;border:var(--border);border-radius:99px;padding:5px 14px;cursor:pointer}
+ol.songs li.hit{background:color-mix(in srgb,var(--hi) 35%,transparent)}
 .more-btn{font:700 13px var(--body);color:var(--muted);background:none;border:0;border-bottom:1.5px dashed currentColor;padding:0;margin-left:4px;cursor:pointer}
 .more-btn[aria-expanded="true"]{color:var(--ink)}
 .desc:not([hidden]){animation:panelIn .35s var(--ease)}
@@ -255,7 +257,8 @@ const yt = q => 'https://www.youtube.com/results?search_query=' + enc(q);
 const spS = q => 'https://open.spotify.com/search/' + enc(q);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const dayLabel = d => d === '1219' ? '12/19 六' : '12/20 日';
-const keysOf = b => b.songs.length ? b.songs.map(s=>songKey(b,s)) : [b.name+'::seen'];
+const keysOf = b => b.songs.length ? [...b.songs, ...(b.more||[])].map(s=>songKey(b,s)) : [b.name+'::seen'];
+const openMore = new Set(); // bands whose full song list you opened this visit
 
 function own(b){ let y=0,n=0; for (const k of keysOf(b)){ const v=S.r[k]; if(v===1)y++; if(v===-1)n++; } return {y,n,rated:y+n}; }
 function tagWeights(){
@@ -305,14 +308,15 @@ function rateRow(label, k){
   const v=S.r[k];
   return `<div class="rate" data-k="${esc(k)}"><button class="y" aria-label="喜歡 ${esc(label)}" aria-pressed="${v===1}">👍</button><button class="n" aria-label="不喜歡 ${esc(label)}" aria-pressed="${v===-1}">👎</button></div>`;
 }
-function card(b, cls='pre', fresh=false, showAll=false){
+function card(b, cls='pre', fresh=false, q=''){
   const o=own(b), [,lab]=level(score(b,tagWeights()));
+  const hit = s => !!q && s.toLowerCase().includes(q);
   const li = (s,i) => {
     const v=S.r[songKey(b,s)];
-    return `<li style="--i:${i}" class="${v===1?'yes':v===-1?'no':''}"><div class="song"><span>${esc(s)}</span> <small><a href="${yt(b.name+' '+s)}" target="_blank" rel="noopener">YouTube</a><a href="${spS(b.name+' '+s)}" target="_blank" rel="noopener">Spotify</a></small></div>${rateRow(s, songKey(b,s))}</li>`;
+    return `<li style="--i:${i}" class="${v===1?'yes':v===-1?'no':''} ${hit(s)?'hit':''}"><div class="song"><span>${esc(s)}</span> <small><a href="${yt(b.name+' '+s)}" target="_blank" rel="noopener">YouTube</a><a href="${spS(b.name+' '+s)}" target="_blank" rel="noopener">Spotify</a></small></div>${rateRow(s, songKey(b,s))}</li>`;
   };
   const extra = b.songs.slice(FIRST);
-  const songs = b.songs.slice(0,FIRST).map(li).join('') + (extra.length && (likedFirst(b) || showAll)
+  const songs = b.songs.slice(0,FIRST).map(li).join('') + (extra.length && (likedFirst(b) || extra.some(hit))
     ? `</ol><div class="more">喜歡的話，這團還有 ${extra.length} 首</div><ol class="songs extra">${extra.map(li).join('')}` : '');
   const noSongs = `<div class="warn">查不到可靠的歌單，直接搜團名聽。</div>
     <ol class="songs"><li><div class="song"><span>聽完整體覺得如何？</span></div>${rateRow(b.name, b.name+'::seen')}</li></ol>`;
@@ -327,6 +331,8 @@ function card(b, cls='pre', fresh=false, showAll=false){
       <a class="sp" href="${b.spotify||spS(b.name)}" target="_blank" rel="noopener">Spotify ${b.spotify?'藝人頁':'搜尋'}</a>
     </div>
     ${songs?`<ol class="songs">${songs}</ol>`:noSongs}
+    ${b.more?.length?(()=>{ const open=openMore.has(b.name)||b.more.some(hit);
+      return `<button class="more-songs" aria-expanded="${open}">${open?'收起':'更多歌'}（${b.more.length}）</button><ol class="songs extra2" ${open?'':'hidden'}>${b.more.map(li).join('')}</ol>`; })():''}
     ${o.rated?`<div class="verdict">目前：${lab}（喜歡 ${o.y}／不喜歡 ${o.n}）</div>`:''}
     ${b.confidence==='low'?`<div class="warn">這團資料很少，可能有同名的團，先確認是不是台灣這團。</div>`:''}
     ${done(b)?`<span class="stamp ${fresh?'new':''}">聽完了！</span>`:''}
@@ -368,14 +374,14 @@ function renderAll(){
   const f=S.f||{}, w=tagWeights();
   document.querySelectorAll('#all .sorts button').forEach(x=>{ const k=x.dataset.f||x.parentElement.dataset.f; x.setAttribute('aria-pressed', f[k]===x.dataset.v); });
   const list=rank(BANDS.filter(b=>
-    (!q || [b.name, ...b.songs, ...b.tags, b.desc, ...(b.like||[])].join(' ').toLowerCase().includes(q)) &&
+    (!q || [b.name, ...b.songs, ...(b.more||[]), ...b.tags, b.desc, ...(b.like||[])].join(' ').toLowerCase().includes(q)) &&
     (!f.day || b.day===f.day) &&
     (!f.st || (f.st==='todo'?!done(b) : f.st==='done'?done(b) : own(b).rated && score(b,w).v>=.5)) &&
     (!f.g || b.tags.some(t=>G[f.g].some(k=>t.includes(k))))));
   document.getElementById('fcount').textContent = (q||f.day||f.st||f.g) ? `符合 ${list.length} 團` : '';
   const el=document.getElementById('allList');
   // a search hit on a not-yet-unlocked song still shows that song
-  el.innerHTML = list.map(b=>card(b,'pre',false, !!q && b.songs.slice(FIRST).some(x=>x.toLowerCase().includes(q)))).join('') || '<div class="intro empty">沒有符合的團</div>';
+  el.innerHTML = list.map(b=>card(b,'pre',false,q)).join('') || '<div class="intro empty">沒有符合的團</div>';
   observe(el);
 }
 function renderList(){
@@ -427,6 +433,9 @@ document.addEventListener('click', e=>{
     if (tab.dataset.tab==='list') renderList(); // replay row stagger
     if (tab.dataset.tab==='all') renderAll(); // re-sort by what you like now
     window.scrollTo({top:0,behavior:RM?'auto':'smooth'}); return; }
+  const ms=e.target.closest('.more-songs');
+  if (ms){ const name=ms.closest('article').dataset.b, ol=ms.nextElementSibling, open=ol.hidden; ol.hidden=!open;
+    open?openMore.add(name):openMore.delete(name); ms.setAttribute('aria-expanded',open); ms.textContent=ms.textContent.replace(open?'更多歌':'收起', open?'收起':'更多歌'); return; }
   const mb=e.target.closest('.more-btn');
   if (mb){ const d=mb.closest('article').querySelector('.desc'), open=d.hidden; d.hidden=!open; mb.setAttribute('aria-expanded',open); mb.textContent=open?'收起':'看介紹'; return; }
   const qb=e.target.closest('[data-q]');
@@ -449,7 +458,8 @@ document.addEventListener('click', e=>{
     save();
     const nowDone=done(b);
     // swap just this band's cards in place so nothing jumps
-    document.querySelectorAll('article.band').forEach(a=>{ if(a.dataset.b===b.name) a.outerHTML=card(b,'',nowDone&&!wasDone); });
+    const qv=document.getElementById('q').value.trim().toLowerCase(); // keep search hits open in 全部樂團
+    document.querySelectorAll('article.band').forEach(a=>{ if(a.dataset.b===b.name) a.outerHTML=card(b,'',nowDone&&!wasDone, a.closest('#allList')?qv:''); });
     // queue: update dots + next button without re-sliding the card
     const go=document.querySelector('#today .qnav .go'), cur=document.querySelector('#today .dots i.cur');
     if (go && document.querySelector('#today article')?.dataset.b===b.name){
