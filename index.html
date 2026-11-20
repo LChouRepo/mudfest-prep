@@ -127,6 +127,11 @@ ol.songs.extra li{animation:rowIn .5s var(--ease) both;animation-delay:calc(var(
 .row .sc{font:700 13px var(--body);white-space:nowrap}
 .row.dim{opacity:.6}
 .filters{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 14px}
+.sorts{display:flex;gap:6px;align-items:center;overflow-x:auto;scrollbar-width:none;margin:-4px 0 14px;padding:2px 2px 6px;font-size:12px;font-weight:700}
+.sorts span{white-space:nowrap}
+.sorts button{font:700 13px var(--body);border:var(--border);background:var(--paper);color:var(--ink);border-radius:99px;padding:6px 12px;cursor:pointer;white-space:nowrap;transition:transform .2s var(--ease)}
+.sorts button:active{transform:scale(.92)}
+.sorts button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
 .filters input{flex:1;min-width:180px;font:700 15px var(--body);border:var(--border);border-radius:99px;padding:8px 14px;background:var(--paper);color:var(--ink)}
 .tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:24px}
 .tools .btn{font-size:13px;box-shadow:none}
@@ -143,10 +148,39 @@ dialog h3{margin:0 0 6px;font-family:var(--display)}
 #egg:hover,#egg.caught{opacity:.9;animation:none}
 @keyframes breathe{50%{opacity:.32}}
 .eggring{width:60px;height:60px;border:4px solid #fff;border-radius:50%;box-shadow:0 0 20px #ffd21f}
+
+/* phones, 今日推薦: whole screen fits, only the band card scrolls */
+@media (max-width:700px){
+  body.on-today{height:100dvh;overflow:hidden}
+  body.on-today .wrap{height:100dvh;display:flex;flex-direction:column;padding-bottom:calc(10px + env(safe-area-inset-bottom))}
+  body.on-today header{padding:calc(10px + env(safe-area-inset-top)) 0 4px;gap:8px;flex-wrap:nowrap;align-items:center}
+  body.on-today .cone{width:30px;height:40px}
+  body.on-today h1{font-size:30px;text-shadow:2px 2px 0 var(--ink);-webkit-text-stroke:1.5px var(--ink)}
+  body.on-today .sub{font-size:11px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:52vw}
+  body.on-today .brand{min-width:0;align-items:center;gap:8px}
+  body.on-today .brand>div{min-width:0}
+  body.on-today .count{display:none}
+  body.on-today .install.show{font-size:12px;padding:5px 9px;white-space:nowrap}
+  body.on-today nav{padding:6px 0 8px;position:static}
+  body.on-today nav button{padding:6px 12px;font-size:13px}
+  body.on-today .tools,body.on-today footer{display:none}
+  body.on-today #today.on{flex:1;min-height:0;display:flex;flex-direction:column}
+  body.on-today #today .intro{margin:2px 0 8px;padding:8px 12px;gap:4px 14px}
+  body.on-today #today .stat b{font-size:22px}
+  body.on-today #today .stat .ic{width:16px;height:16px}
+  body.on-today #today .progress{height:8px;margin-top:4px}
+  body.on-today .qbar{margin:0 0 4px;font-size:13px}
+  body.on-today .qstage{flex:1;min-height:0;display:flex;flex-direction:column}
+  body.on-today .qstage .band{flex:1;min-height:0;margin:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:12px 14px}
+  body.on-today .qstage .band h3{font-size:21px}
+  body.on-today .qnav{margin-top:8px}
+  body.on-today .qnav .btn{padding:8px 16px}
+  body.on-today #today .empty{flex:1}
+}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.band.pre{opacity:1;transform:none}}
 </style>
 </head>
-<body>
+<body class="on-today">
 <div class="wrap">
   <header>
     <div class="brand">
@@ -160,7 +194,7 @@ dialog h3{margin:0 0 6px;font-family:var(--display)}
       </svg>
       <div>
         <h1 id="title">爛泥 PREP</h1>
-        <div class="sub">爛泥發芽 2026/12/19、12/20 新莊運動公園陽光草坪</div>
+        <div class="sub">爛泥發芽 2026/12/19、12/20</div>
       </div>
     </div>
     <div class="hside"><button class="btn install" id="install">加到主畫面</button><div class="count" id="count"></div></div>
@@ -174,6 +208,7 @@ dialog h3{margin:0 0 6px;font-family:var(--display)}
   <section class="panel on" id="today"></section>
   <section class="panel" id="all">
     <div class="filters"><input id="q" placeholder="搜團名、曲風（例：龐克、後搖）"></div>
+    <div class="sorts" id="sorts" aria-label="排序"><button data-sort="rec">合我口味</button><button data-sort="day">演出日</button><button data-sort="todo">還沒聽的先</button><button data-sort="top">我評最高</button><button data-sort="name">團名筆畫</button></div>
     <div id="allList"></div>
   </section>
   <section class="panel list" id="list"></section>
@@ -183,7 +218,7 @@ dialog h3{margin:0 0 6px;font-family:var(--display)}
     <button class="btn" id="imp">匯入評分</button>
     <input type="file" id="file" accept="application/json" hidden>
   </div>
-  <footer>評分只存在這支手機的瀏覽器裡，換手機前記得先匯出。歌名是從網路上查的，YouTube 和 Spotify 按鈕都是搜尋，第一筆不一定是這團，看一下團名。</footer>
+  <footer>評分只存在這支手機，換手機前先匯出。搜尋結果第一筆不一定是這團。</footer>
 </div>
 
 <dialog id="iosSheet">
@@ -320,7 +355,15 @@ function renderToday(dir){
 }
 function renderAll(){
   const q=document.getElementById('q').value.trim().toLowerCase();
-  const list=rank(BANDS.filter(b=>!q || (b.name+b.tags.join()+b.desc).toLowerCase().includes(q)));
+  const hit=BANDS.filter(b=>!q || (b.name+b.tags.join()+b.desc).toLowerCase().includes(q));
+  const sort=S.sort||'rec', w=tagWeights();
+  document.querySelectorAll('#sorts [data-sort]').forEach(x=>x.setAttribute('aria-pressed', x.dataset.sort===sort));
+  const list =
+    sort==='day'  ? hit :  // poster order: 12/19 then 12/20
+    sort==='todo' ? [...rank(hit.filter(b=>!done(b))), ...rank(hit.filter(done))] :
+    sort==='top'  ? [...hit.filter(b=>own(b).rated).sort((x,y)=>score(y,w).v-score(x,w).v || own(y).y-own(x).y), ...rank(hit.filter(b=>!own(b).rated))] :
+    sort==='name' ? [...hit].sort((x,y)=>x.name.localeCompare(y.name,'zh-Hant-TW-u-co-stroke')) :
+    rank(hit);
   const el=document.getElementById('allList');
   el.innerHTML = list.map(b=>card(b)).join('') || '<div class="intro empty">沒有符合的團</div>';
   observe(el);
@@ -365,8 +408,11 @@ document.getElementById('cone').onclick=hopCone;
 
 document.addEventListener('click', e=>{
   const tab=e.target.closest('nav button[data-tab]');
+  const so=e.target.closest('[data-sort]');
+  if (so){ S.sort=so.dataset.sort; save(); renderAll(); return; }
   if (tab){ document.querySelectorAll('nav button[data-tab]').forEach(b=>b.setAttribute('aria-pressed', b===tab));
     document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('on', p.id===tab.dataset.tab));
+    document.body.classList.toggle('on-today', tab.dataset.tab==='today');
     if (tab.dataset.tab==='list') renderList(); // replay row stagger
     if (tab.dataset.tab==='all') renderAll(); // re-sort by what you like now
     window.scrollTo({top:0,behavior:RM?'auto':'smooth'}); return; }
