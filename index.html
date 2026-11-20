@@ -435,7 +435,11 @@ render();
 // tap 1: shakes, then bolts far away. tap 2: shakes hard, bolts faster for good. tap 3: off to YouTube.
 (()=>{
   const egg=document.getElementById('egg'), img=egg.firstElementChild;
-  const SONG='https://www.youtube.com/watch?v=gCa2L_mC3w8&list=RDgCa2L_mC3w8&start_radio=1';
+  // 芒果醬 Mango Jump: 小紫aka給我錢, 我喜歡你, 九彎十八拐, 再見電影院, 我不想工作aka我會中樂透
+  const IDS=['gCa2L_mC3w8','Q-Y-C_S5HFY','xX1FYlFEANs','0jWzr6M8Ero','OyeATtbuOFw'];
+  // first time you finish the egg it's always 小紫aka給我錢; after that, random
+  const id=S.egg ? IDS[Math.floor(Math.random()*IDS.length)] : IDS[0];
+  const path=`www.youtube.com/watch?v=${id}&list=RD${id}&start_radio=1`, SONG='https://'+path;
   let x=Math.random()*(innerWidth-80), y=Math.random()*(innerHeight-90);
   let a=Math.random()*Math.PI*2, vx=Math.cos(a), vy=Math.sin(a);
   let speed=60, boost=1, taps=0, frozen=false, last=performance.now();
@@ -458,7 +462,7 @@ render();
   // Android: intent link (falls back to the web page if the app isn't installed).
   // iPhone: youtube:// link; if the app doesn't open within 1.5s, go to the web page instead.
   function openYouTube(){
-    const id='gCa2L_mC3w8', path=`www.youtube.com/watch?v=${id}&list=RD${id}&start_radio=1`;
+    S.egg=(S.egg||0)+1; save();
     if(/android/i.test(navigator.userAgent)){
       location.href=`intent://${path}#Intent;scheme=https;package=com.google.android.youtube;S.browser_fallback_url=${encodeURIComponent(SONG)};end`; return; }
     if(isIOS){
