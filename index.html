@@ -188,11 +188,7 @@ dialog h3{margin:0 0 6px;font-family:var(--display)}
 
 <dialog id="iosSheet">
   <h3>加到主畫面</h3>
-  <ol>
-    <li>用 <b>Safari</b> 開這個網址</li>
-    <li>按下面的分享鈕（方框加一個向上箭頭）</li>
-    <li>往下滑，點「加入主畫面」</li>
-  </ol>
+  <ol id="installSteps"></ol>
   <div>之後從桌面圖示打開會是全螢幕，沒網路也看得到清單。</div>
   <form method="dialog" style="margin-top:14px"><button class="btn">知道了</button></form>
 </dialog>
@@ -421,7 +417,16 @@ addEventListener('beforeinstallprompt', e=>{ e.preventDefault(); deferred=e; if(
 if (!standalone && isMobile) inst.classList.add('show');
 inst.onclick=async()=>{
   if (deferred){ deferred.prompt(); const {outcome}=await deferred.userChoice; if(outcome==='accepted') inst.classList.remove('show'); deferred=null; }
-  else document.getElementById('iosSheet').showModal();
+  else {
+    // each browser hides "add to home screen" in a different place
+    const ua=navigator.userAgent, steps =
+      /CriOS/.test(ua) ? ['按網址列右邊的分享鈕（方框加一個向上箭頭）','往下滑，點「加入主畫面」'] :
+      isIOS && /FxiOS|EdgiOS/.test(ua) ? ['打開瀏覽器選單裡的「分享」','往下滑，點「加入主畫面」'] :
+      isIOS ? ['按下面的分享鈕（方框加一個向上箭頭）','往下滑，點「加入主畫面」'] :
+      ['按右上角的 ⋮','點「加到主畫面」或「安裝應用程式」'];
+    document.getElementById('installSteps').innerHTML=steps.map(t=>`<li>${t}</li>`).join('');
+    document.getElementById('iosSheet').showModal();
+  }
 };
 addEventListener('appinstalled', ()=>inst.classList.remove('show'));
 if ('serviceWorker' in navigator && location.protocol!=='file:') navigator.serviceWorker.register('sw.js');
