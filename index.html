@@ -128,7 +128,8 @@ ol.songs.extra li{animation:rowIn .5s var(--ease) both;animation-delay:calc(var(
 .row.dim{opacity:.6}
 .filters{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 14px}
 .sorts{display:flex;gap:6px;align-items:center;overflow-x:auto;scrollbar-width:none;margin:-4px 0 14px;padding:2px 2px 6px;font-size:12px;font-weight:700}
-.sorts span{white-space:nowrap}
+.sorts .sep{flex:none;width:1px;align-self:stretch;margin:4px 4px;background:color-mix(in srgb,var(--ink) 30%,transparent)}
+.fcount{font-size:12px;font-weight:700;margin:-8px 0 12px;opacity:.8}
 .sorts button{font:700 13px var(--body);border:var(--border);background:var(--paper);color:var(--ink);border-radius:99px;padding:6px 12px;cursor:pointer;white-space:nowrap;transition:transform .2s var(--ease)}
 .sorts button:active{transform:scale(.92)}
 .sorts button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
@@ -208,7 +209,9 @@ dialog h3{margin:0 0 6px;font-family:var(--display)}
   <section class="panel on" id="today"></section>
   <section class="panel" id="all">
     <div class="filters"><input id="q" placeholder="搜團名、曲風（例：龐克、後搖）"></div>
-    <div class="sorts" id="sorts" aria-label="排序"><button data-sort="rec">合我口味</button><button data-sort="day">演出日</button><button data-sort="todo">還沒聽的先</button><button data-sort="top">我評最高</button><button data-sort="name">團名筆畫</button></div>
+    <div class="sorts" data-f="day"><button data-v="1219">12/19 六</button><button data-v="1220">12/20 日</button><span class="sep"></span><button data-v="todo" data-f="st">還沒聽</button><button data-v="done" data-f="st">聽完了</button><button data-v="like" data-f="st">我喜歡的</button></div>
+    <div class="sorts" data-f="g"><button data-v="punk">龐克</button><button data-v="indie">獨立／另類</button><button data-v="pop">流行</button><button data-v="emo">情緒／emo</button><button data-v="hard">硬核／金屬</button><button data-v="psy">迷幻／實驗</button><button data-v="tw">台語／客語</button></div>
+    <div class="fcount" id="fcount"></div>
     <div id="allList"></div>
   </section>
   <section class="panel list" id="list"></section>
@@ -355,15 +358,16 @@ function renderToday(dir){
 }
 function renderAll(){
   const q=document.getElementById('q').value.trim().toLowerCase();
-  const hit=BANDS.filter(b=>!q || (b.name+b.tags.join()+b.desc).toLowerCase().includes(q));
-  const sort=S.sort||'rec', w=tagWeights();
-  document.querySelectorAll('#sorts [data-sort]').forEach(x=>x.setAttribute('aria-pressed', x.dataset.sort===sort));
-  const list =
-    sort==='day'  ? hit :  // poster order: 12/19 then 12/20
-    sort==='todo' ? [...rank(hit.filter(b=>!done(b))), ...rank(hit.filter(done))] :
-    sort==='top'  ? [...hit.filter(b=>own(b).rated).sort((x,y)=>score(y,w).v-score(x,w).v || own(y).y-own(x).y), ...rank(hit.filter(b=>!own(b).rated))] :
-    sort==='name' ? [...hit].sort((x,y)=>x.name.localeCompare(y.name,'zh-Hant-TW-u-co-stroke')) :
-    rank(hit);
+  // filters: one pick per row group; genre groups match any tag containing one of the words
+  const G={punk:['龐克'],indie:['獨立','另類'],pop:['流行'],emo:['情緒','emo'],hard:['核','金屬'],psy:['迷幻','瞪鞋','噪音','實驗','前衛','後搖','器樂','夢幻'],tw:['台語','客語']};
+  const f=S.f||{}, w=tagWeights();
+  document.querySelectorAll('#all .sorts button').forEach(x=>{ const k=x.dataset.f||x.parentElement.dataset.f; x.setAttribute('aria-pressed', f[k]===x.dataset.v); });
+  const list=rank(BANDS.filter(b=>
+    (!q || (b.name+b.tags.join()+b.desc).toLowerCase().includes(q)) &&
+    (!f.day || b.day===f.day) &&
+    (!f.st || (f.st==='todo'?!done(b) : f.st==='done'?done(b) : own(b).rated && score(b,w).v>=.5)) &&
+    (!f.g || b.tags.some(t=>G[f.g].some(k=>t.includes(k))))));
+  document.getElementById('fcount').textContent = (q||f.day||f.st||f.g) ? `符合 ${list.length} 團` : '';
   const el=document.getElementById('allList');
   el.innerHTML = list.map(b=>card(b)).join('') || '<div class="intro empty">沒有符合的團</div>';
   observe(el);
@@ -408,8 +412,9 @@ document.getElementById('cone').onclick=hopCone;
 
 document.addEventListener('click', e=>{
   const tab=e.target.closest('nav button[data-tab]');
-  const so=e.target.closest('[data-sort]');
-  if (so){ S.sort=so.dataset.sort; save(); renderAll(); return; }
+  const fb=e.target.closest('#all .sorts button');
+  if (fb){ const k=fb.dataset.f||fb.parentElement.dataset.f; S.f=S.f||{};
+    S.f[k] = S.f[k]===fb.dataset.v ? undefined : fb.dataset.v; save(); renderAll(); return; }
   if (tab){ document.querySelectorAll('nav button[data-tab]').forEach(b=>b.setAttribute('aria-pressed', b===tab));
     document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('on', p.id===tab.dataset.tab));
     document.body.classList.toggle('on-today', tab.dataset.tab==='today');
