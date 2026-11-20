@@ -1,0 +1,13 @@
+// offline: serve from cache instantly, refresh cache in background (festival grass = bad signal)
+const C = 'mudfest-v4';
+const SHELL = ['./', 'index.html', 'bands.js', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'mascot.png'];
+self.addEventListener('install', e => { e.waitUntil(caches.open(C).then(c => c.addAll(SHELL))); self.skipWaiting(); });
+self.addEventListener('activate', e => e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== C).map(k => caches.delete(k)))).then(() => self.clients.claim())));
+self.addEventListener('fetch', e => {
+  if (e.request.method !== 'GET') return;
+  e.respondWith(caches.open(C).then(async c => {
+    const hit = await c.match(e.request);
+    const net = fetch(e.request).then(r => { if (r.ok || r.type === 'opaque') c.put(e.request, r.clone()); return r; }).catch(() => hit);
+    return hit || net;
+  }));
+});

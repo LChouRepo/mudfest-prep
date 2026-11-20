@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>爛泥 PREP</title>
+<meta name="theme-color" content="#e8461c">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="爛泥 PREP">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bowlby+One&family=Noto+Sans+TC:wght@400;700;900&family=IBM+Plex+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#e8461c; --bg2:#ff6a2a; --ink:#111; --paper:#fff6e0; --hi:#ffd21f; --blue:#3d7be6;
+  --good:#1f9d55; --bad:#c81e1e; --muted:#5a4a3a; --shadow:4px 4px 0 var(--ink);
+  --border:3px solid var(--ink); --radius:10px; --display:"Bowlby One","Noto Sans TC",sans-serif;
+  --body:"Noto Sans TC",system-ui,sans-serif; --ease:cubic-bezier(.34,1.56,.64,1); --tilt:0deg;
+  --pattern:none;
+}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5;
+  background-image:var(--pattern);min-height:100vh;transition:background-color .4s,color .4s;-webkit-tap-highlight-color:transparent}
+a{color:inherit}
+.wrap{max-width:880px;margin:0 auto;padding:0 16px calc(80px + env(safe-area-inset-bottom))}
+header{padding:calc(24px + env(safe-area-inset-top)) 0 12px;display:flex;gap:16px;align-items:flex-end;justify-content:space-between;flex-wrap:wrap}
+.brand{display:flex;gap:12px;align-items:flex-end}
+h1{font-family:var(--display);font-size:clamp(34px,8vw,64px);line-height:.95;margin:0;letter-spacing:-.01em;
+  color:var(--hi);-webkit-text-stroke:2px var(--ink);paint-order:stroke fill;text-shadow:4px 4px 0 var(--ink)}
+h1 span{display:inline-block;white-space:pre;animation:drop .7s var(--ease) both;animation-delay:calc(var(--i)*55ms)}
+@keyframes drop{from{transform:translateY(-40px) rotate(-12deg);opacity:0}}
+.cone{width:64px;height:84px;flex:none;cursor:pointer;transform-origin:50% 100%;animation:sway 3.2s ease-in-out infinite}
+.cone .sprout{transform-origin:50% 100%;animation:sway 2.1s ease-in-out infinite reverse}
+@keyframes sway{50%{transform:rotate(4deg)}0%,100%{transform:rotate(-4deg)}}
+.cone.hop{animation:hop .55s var(--ease)}
+@keyframes hop{30%{transform:translateY(-18px) rotate(-8deg) scale(1.05)}}
+.sub{font-weight:700;margin-top:6px}
+.count{font-family:var(--display);font-size:14px;background:var(--ink);color:var(--hi);padding:6px 10px;border-radius:var(--radius);white-space:nowrap}
+.count b{display:inline-block}.count b.bump{animation:bump .5s var(--ease)}
+@keyframes bump{40%{transform:scale(1.6)}}
+nav{display:flex;gap:8px;position:sticky;top:0;z-index:5;box-shadow:0 0 0 100vmax var(--bg);clip-path:inset(0 -100vmax);padding:10px 0;padding-top:max(10px,env(safe-area-inset-top));background:var(--bg);flex-wrap:wrap;align-items:center}
+nav button,.chip,.btn{font:700 14px var(--body);border:var(--border);background:var(--paper);color:var(--ink);
+  padding:8px 14px;border-radius:999px;cursor:pointer;box-shadow:var(--shadow);transition:transform .25s var(--ease),background .2s,color .2s}
+nav button:active,.btn:active{transform:translate(2px,2px)}
+nav button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.hside{display:flex;gap:8px;align-items:center}
+.install{display:none;background:var(--hi)!important;color:var(--ink)!important}
+.install.show{display:inline-block;animation:wiggle 2.4s 1s ease-in-out 2}
+@keyframes wiggle{0%,100%{transform:rotate(0)}10%{transform:rotate(-6deg)}20%{transform:rotate(6deg)}30%{transform:rotate(0)}}
+.panel{display:none}.panel.on{display:block;animation:panelIn .45s var(--ease)}
+@keyframes panelIn{from{opacity:0;transform:translateY(14px)}}
+.intro{background:var(--paper);border:var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px 16px;margin:8px 0 18px}
+.intro b{font-family:var(--display)}
+.stats{display:flex;flex-wrap:wrap;align-items:center;gap:6px 18px}
+.stats .progress{flex-basis:100%}
+.stat{display:flex;align-items:baseline;gap:4px}
+.stat .ic{width:20px;height:20px;align-self:center;margin-right:2px}
+.stat b{font-family:var(--display);font-size:30px;line-height:1}
+.stat span{font-weight:900}
+.progress{height:10px;border:var(--border);border-radius:99px;overflow:hidden;background:var(--paper);margin-top:10px}
+.progress i{display:block;height:100%;background:var(--hi);width:0;transition:width 1s var(--ease)}
+.band{background:var(--paper);border:var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;margin:0 0 18px;position:relative;
+  transform:rotate(var(--tilt));transition:transform .35s var(--ease),box-shadow .35s}
+@media (hover:hover){.band:hover{transform:translateY(-3px);box-shadow:7px 7px 0 var(--ink)}}
+.band.pre{opacity:0;transform:translateY(28px) rotate(var(--tilt))}
+.band.in{animation:cardIn .6s var(--ease) both}
+@keyframes cardIn{from{opacity:0;transform:translateY(28px) scale(.97)}}
+@keyframes glitchIn{0%{opacity:0;clip-path:inset(0 0 100% 0)}50%{opacity:1;transform:translateX(-6px);clip-path:inset(0 0 40% 0)}}
+.band h3{font-family:var(--display);font-size:24px;margin:0 0 4px;line-height:1.15;padding-right:70px}
+.day{position:absolute;top:14px;right:14px;font:700 12px var(--body);background:var(--hi);color:var(--ink);border:var(--border);padding:2px 8px;border-radius:99px}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.tag{font-size:12px;font-weight:700;border:1.5px solid var(--ink);border-radius:99px;padding:1px 8px}
+.desc{margin:6px 0}
+.more-btn{font:700 13px var(--body);color:var(--muted);background:none;border:0;border-bottom:1.5px dashed currentColor;padding:0;margin-left:4px;cursor:pointer}
+.more-btn[aria-expanded="true"]{color:var(--ink)}
+.desc:not([hidden]){animation:panelIn .35s var(--ease)}
+
+.like{font-size:13px;color:var(--muted)}
+.links{display:flex;gap:8px;margin:10px 0 4px;flex-wrap:wrap}
+.links a{font-size:13px;font-weight:700;text-decoration:none;border:var(--border);border-radius:99px;padding:4px 12px;background:var(--bg2);color:#fff;transition:transform .25s var(--ease)}
+.links a:hover{transform:translateY(-2px) rotate(-2deg)}
+.links a.sp{background:#1db954;color:#000}
+ol.songs{list-style:none;margin:10px 0 0;padding:0}
+ol.songs li{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;padding:8px 0;border-top:1.5px dashed color-mix(in srgb,var(--ink) 35%,transparent);transition:background .3s}
+ol.songs li.yes{background:linear-gradient(90deg,color-mix(in srgb,var(--good) 14%,transparent),transparent)}
+ol.songs li.no .song>span{opacity:.5;text-decoration:line-through}
+.song{font-weight:700;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.song small a{font-weight:700;font-size:12px;text-decoration:none;border-bottom:2px solid currentColor;margin-right:8px}
+.rate{display:flex;gap:6px}
+.rate button{width:44px;height:36px;border:var(--border);border-radius:8px;background:transparent;color:var(--ink);font-size:16px;cursor:pointer;transition:transform .2s var(--ease),background .2s}
+.rate button:active{transform:scale(.85)}
+.rate button.y[aria-pressed="true"]{background:var(--good);color:#fff}
+.rate button.n[aria-pressed="true"]{background:var(--bad);color:#fff}
+.verdict{margin-top:10px;font-weight:900;font-size:14px}
+.warn{font-size:12px;color:var(--muted);margin-top:6px}
+.stamp{position:absolute;right:18px;bottom:16px;font:900 18px var(--body);color:var(--good);border:3px solid var(--good);padding:2px 10px;border-radius:8px;transform:rotate(-12deg);opacity:.85;pointer-events:none}
+.stamp.new{animation:stamp .5s cubic-bezier(.2,1.6,.4,1) both}
+@keyframes stamp{from{transform:rotate(-30deg) scale(3);opacity:0}}
+.empty{padding:20px;text-align:center;font-weight:700}
+.more{margin-top:12px;font-weight:900;font-size:13px;color:var(--good);animation:panelIn .5s var(--ease)}
+ol.songs.extra li{animation:rowIn .5s var(--ease) both;animation-delay:calc(var(--i,0)*90ms)}
+.qbar{display:flex;align-items:center;gap:10px;margin:0 0 12px}
+.dots{display:flex;gap:6px;flex:1}
+.dots i{height:8px;flex:1;max-width:40px;border:var(--border);border-radius:99px;background:var(--paper);transition:background .3s}
+.dots i.done{background:var(--good)}.dots i.cur{background:var(--hi)}
+.qnav{display:flex;gap:10px;justify-content:space-between;margin-top:-4px}
+.qnav .btn:disabled{opacity:.35;cursor:default}
+.qnav .go{background:var(--hi);color:var(--ink)}
+.qnav .go.ready{animation:wiggle 1.6s ease-in-out infinite}
+.qstage{overflow:hidden;padding:6px 6px 2px;margin:0 -6px}
+.qstage .band{animation:slideIn .45s var(--ease) both}
+.qstage.back .band{animation-name:slideBack}
+@keyframes slideIn{from{opacity:0;transform:translateX(60px) rotate(3deg)}}
+@keyframes slideBack{from{opacity:0;transform:translateX(-60px) rotate(-3deg)}}
+.list h2{font-family:var(--display);font-size:28px;margin:22px 0 8px;color:var(--paper);-webkit-text-stroke:1.5px var(--ink);paint-order:stroke fill;text-shadow:3px 3px 0 var(--ink)}
+.row{display:grid;grid-template-columns:72px 1fr auto;gap:10px;align-items:center;background:var(--paper);border:var(--border);border-radius:var(--radius);padding:10px 12px;margin-bottom:8px;
+  animation:rowIn .5s var(--ease) both;animation-delay:calc(var(--i,0)*35ms)}
+@keyframes rowIn{from{opacity:0;transform:translateX(-18px)}}
+.row .lv{font:900 13px var(--body);text-align:center;border-radius:6px;padding:4px 0;border:var(--border)}
+.lv.must{background:var(--good);color:#fff}.lv.ok{background:var(--hi);color:var(--ink)}
+.lv.skip{background:transparent;color:var(--muted);text-decoration:line-through}.lv.unk{background:transparent;color:var(--muted)}
+.row .nm{font-weight:900}.row .meta{font-size:12px;color:var(--muted)}
+.row .sc{font:700 13px var(--body);white-space:nowrap}
+.row.dim{opacity:.6}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 14px}
+.filters input{flex:1;min-width:180px;font:700 15px var(--body);border:var(--border);border-radius:99px;padding:8px 14px;background:var(--paper);color:var(--ink)}
+.tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:24px}
+.tools .btn{font-size:13px;box-shadow:none}
+footer{font-size:12px;opacity:.75;margin-top:30px}
+.fx{position:fixed;left:0;top:0;pointer-events:none;z-index:50;font-size:18px;will-change:transform,opacity}
+dialog{border:var(--border);border-radius:var(--radius);background:var(--paper);color:var(--ink);box-shadow:var(--shadow);max-width:340px;padding:20px}
+dialog::backdrop{background:rgba(0,0,0,.5)}
+dialog[open]{animation:panelIn .35s var(--ease)}
+dialog ol{padding-left:20px;margin:8px 0 14px}
+dialog h3{margin:0 0 6px;font-family:var(--display)}
+@media (max-width:520px){#egg{width:36px}.cone{width:48px;height:64px}.rate button{width:40px}.install.show{font-size:13px;padding:6px 10px}}
+#egg{position:fixed;left:0;top:0;width:44px;z-index:40;cursor:pointer;will-change:transform;opacity:.16;animation:breathe 5s ease-in-out infinite;transition:opacity .3s}
+#egg img{display:block;width:100%;pointer-events:none;user-select:none;-webkit-user-drag:none}
+#egg:hover,#egg.caught{opacity:.9;animation:none}
+@keyframes breathe{50%{opacity:.32}}
+.eggring{width:60px;height:60px;border:4px solid #fff;border-radius:50%;box-shadow:0 0 20px #ffd21f}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.band.pre{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <svg class="cone" id="cone" viewBox="0 0 64 84" aria-hidden="true">
+        <g class="sprout"><path d="M32 30 C32 20 32 16 32 10" stroke="#2f9e44" stroke-width="3" fill="none"/>
+          <ellipse cx="24" cy="10" rx="9" ry="5" fill="#8bd05a" stroke="#111" stroke-width="2" transform="rotate(-25 24 10)"/>
+          <ellipse cx="40" cy="8" rx="9" ry="5" fill="#8bd05a" stroke="#111" stroke-width="2" transform="rotate(25 40 8)"/></g>
+        <path d="M24 30 L40 30 L54 76 L10 76 Z" fill="#ff5a1f" stroke="#111" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M20 44 L44 44 L47 54 L17 54 Z" fill="#fff" stroke="#111" stroke-width="2"/>
+        <rect x="4" y="74" width="56" height="8" rx="2" fill="#ff5a1f" stroke="#111" stroke-width="3"/>
+      </svg>
+      <div>
+        <h1 id="title">爛泥 PREP</h1>
+        <div class="sub">爛泥發芽 2026/12/19、12/20 新莊運動公園陽光草坪</div>
+      </div>
+    </div>
+    <div class="hside"><button class="btn install" id="install">加到主畫面</button><div class="count" id="count"></div></div>
+  </header>
+  <nav>
+    <button data-tab="today" aria-pressed="true">今日功課</button>
+    <button data-tab="all" aria-pressed="false">全部樂團</button>
+    <button data-tab="list" aria-pressed="false">當天清單</button>
+  </nav>
+
+  <section class="panel on" id="today"></section>
+  <section class="panel" id="all">
+    <div class="filters"><input id="q" placeholder="搜團名、曲風（例：龐克、後搖）"></div>
+    <div id="allList"></div>
+  </section>
+  <section class="panel list" id="list"></section>
+
+  <div class="tools">
+    <button class="btn" id="exp">匯出評分</button>
+    <button class="btn" id="imp">匯入評分</button>
+    <input type="file" id="file" accept="application/json" hidden>
+  </div>
+  <footer>評分只存在這支手機的瀏覽器裡，換手機前記得先匯出。歌名是從網路上查的，YouTube 和 Spotify 按鈕都是搜尋，第一筆不一定是這團，看一下團名。</footer>
+</div>
+
+<dialog id="iosSheet">
+  <h3>加到主畫面</h3>
+  <ol>
+    <li>用 <b>Safari</b> 開這個網址</li>
+    <li>按下面的分享鈕（方框加一個向上箭頭）</li>
+    <li>往下滑，點「加入主畫面」</li>
+  </ol>
+  <div>之後從桌面圖示打開會是全螢幕，沒網路也看得到清單。</div>
+  <form method="dialog" style="margin-top:14px"><button class="btn">知道了</button></form>
+</dialog>
+
+<div id="egg" role="button" aria-label="？"><img src="mascot.png" alt=""></div>
+
+<script src="bands.js"></script>
+<script>
+const FEST = new Date('2026-12-19T00:00:00+08:00');
+const KEY = 'mudfest-v1';
+const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const load = () => { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch { return {}; } };
+let S = Object.assign({ r:{}, start:null, }, load());
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch {} };
+const today = () => { const d=new Date(); d.setHours(0,0,0,0); return d; };
+if (!S.start) { S.start = today().toISOString(); save(); }
+
+const songKey = (b,s) => b.name + '::' + s;
+const enc = encodeURIComponent;
+const yt = q => 'https://www.youtube.com/results?search_query=' + enc(q);
+const spS = q => 'https://open.spotify.com/search/' + enc(q);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const dayLabel = d => d === '1219' ? '12/19 六' : '12/20 日';
+const keysOf = b => b.songs.length ? b.songs.map(s=>songKey(b,s)) : [b.name+'::seen'];
+
+function own(b){ let y=0,n=0; for (const k of keysOf(b)){ const v=S.r[k]; if(v===1)y++; if(v===-1)n++; } return {y,n,rated:y+n}; }
+function tagWeights(){
+  const w={};
+  for (const b of BANDS){ const o=own(b); if(!o.rated) continue; const s=(o.y-o.n)/o.rated; for(const t of b.tags) w[t]=(w[t]||0)+s; }
+  return w;
+}
+function score(b,w){
+  const o=own(b);
+  if (o.rated) return { v:(o.y-o.n)/o.rated, known:true, o };
+  const p=b.tags.reduce((a,t)=>a+(w[t]||0),0)/Math.max(1,b.tags.length);
+  return { v:Math.max(-1,Math.min(1,p/2)), known:false, o };
+}
+function level(sc){
+  if (!sc.known) return sc.v>0.15 ? ['unk','可能喜歡'] : sc.v<-0.15 ? ['unk','可能不愛'] : ['unk','沒聽過'];
+  return sc.v>=0.5 ? ['must','必看'] : sc.v>=0 ? ['ok','可以'] : ['skip','跳過'];
+}
+function done(b){ const o=own(b); return o.rated>=Math.min(3,keysOf(b).length); }
+
+const FIRST = 3; // songs shown before we know if you like the band
+// liked = at least 2 thumbs-up among the first 3 → unlock the rest
+const likedFirst = b => b.songs.slice(0,FIRST).filter(s=>S.r[songKey(b,s)]===1).length >= 2;
+const daysLeft = () => Math.max(1, Math.round((FEST - today())/864e5));
+// stable per-user shuffle so ties aren't broken by poster order
+const jitter = b => { let h=0; for (const c of b.name+S.start) h=(h*31+c.charCodeAt(0))|0; return (h>>>0)%1000/10000; };
+// order by genres you liked; genres you haven't tried yet get a small bonus so new styles still come up
+function rank(list){
+  const w=tagWeights(), tried=new Set();
+  for (const b of BANDS) if (own(b).rated) b.tags.forEach(t=>tried.add(t));
+  const k=b=>score(b,w).v + .1*b.tags.filter(t=>!tried.has(t)).length/b.tags.length + jitter(b);
+  return list.map(b=>[k(b),b]).sort((x,y)=>y[0]-x[0]).map(x=>x[1]);
+}
+const nextBest = exclude => rank(BANDS.filter(b=>!done(b) && !exclude.includes(b.name)));
+// the next band is picked when you get to it, so today's ratings steer it
+function queue(){
+  const d=today().toDateString();
+  if (!S.q || S.q.date!==d || !S.q.target){
+    const todo=BANDS.filter(b=>!done(b)).length;
+    S.q={date:d, names:[], i:0, target:Math.max(2, Math.ceil(todo/daysLeft()))};
+  }
+  if (S.q.i>=S.q.names.length && S.q.names.length<S.q.target){ const n=nextBest(S.q.names)[0]; if(n) S.q.names.push(n.name); }
+  save();
+  return S.q;
+}
+
+function rateRow(label, k){
+  const v=S.r[k];
+  return `<div class="rate" data-k="${esc(k)}"><button class="y" aria-label="喜歡 ${esc(label)}" aria-pressed="${v===1}">👍</button><button class="n" aria-label="不喜歡 ${esc(label)}" aria-pressed="${v===-1}">👎</button></div>`;
+}
+function card(b, cls='pre', fresh=false){
+  const o=own(b), [,lab]=level(score(b,tagWeights()));
+  const li = (s,i) => {
+    const v=S.r[songKey(b,s)];
+    return `<li style="--i:${i}" class="${v===1?'yes':v===-1?'no':''}"><div class="song"><span>${esc(s)}</span> <small><a href="${yt(b.name+' '+s)}" target="_blank" rel="noopener">YouTube</a><a href="${spS(b.name+' '+s)}" target="_blank" rel="noopener">Spotify</a></small></div>${rateRow(s, songKey(b,s))}</li>`;
+  };
+  const extra = b.songs.slice(FIRST);
+  const songs = b.songs.slice(0,FIRST).map(li).join('') + (extra.length && likedFirst(b)
+    ? `</ol><div class="more">喜歡的話，這團還有 ${extra.length} 首</div><ol class="songs extra">${extra.map(li).join('')}` : '');
+  const noSongs = `<div class="warn">查不到可靠的歌單，直接搜團名聽。</div>
+    <ol class="songs"><li><div class="song"><span>聽完整體覺得如何？</span></div>${rateRow(b.name, b.name+'::seen')}</li></ol>`;
+  return `<article class="band ${cls}" data-b="${esc(b.name)}">
+    <span class="day">${dayLabel(b.day)}</span>
+    <h3>${esc(b.name)}</h3>
+    <div class="tags">${b.tags.map(t=>`<span class="tag">${esc(t)}</span>`).join('')}${b.desc?`<button class="more-btn" aria-expanded="false">看介紹</button>`:''}</div>
+    ${b.desc?`<p class="desc" hidden>${esc(b.desc)}</p>`:''}
+    ${b.like?.length?`<div class="like">像：${b.like.map(esc).join('、')}</div>`:''}
+    <div class="links">
+      <a href="${yt(b.name)}" target="_blank" rel="noopener">YouTube 搜團名</a>
+      <a class="sp" href="${b.spotify||spS(b.name)}" target="_blank" rel="noopener">Spotify ${b.spotify?'藝人頁':'搜尋'}</a>
+    </div>
+    ${songs?`<ol class="songs">${songs}</ol>`:noSongs}
+    ${o.rated?`<div class="verdict">目前：${lab}（喜歡 ${o.y}／不喜歡 ${o.n}）</div>`:''}
+    ${b.confidence==='low'?`<div class="warn">這團資料很少，可能有同名的團，先確認是不是台灣這團。</div>`:''}
+    ${done(b)?`<span class="stamp ${fresh?'new':''}">聽完了！</span>`:''}
+  </article>`;
+}
+
+// cards fade up as they scroll into view
+const io = 'IntersectionObserver' in window && !RM ? new IntersectionObserver(es=>es.forEach(e=>{
+  if(e.isIntersecting){ e.target.classList.replace('pre','in'); io.unobserve(e.target); }
+}),{rootMargin:'0px 0px -40px'}) : null;
+function observe(root){ root.querySelectorAll('.band.pre').forEach(el=> io ? io.observe(el) : el.classList.remove('pre')); }
+
+function renderToday(dir){
+  const q=queue(), total=BANDS.length, todo=BANDS.filter(b=>!done(b)).length;
+  const el=document.getElementById('today');
+  const note='<svg viewBox="0 0 24 24" class="ic"><path d="M9 18V5l11-2v13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><circle cx="6.5" cy="18" r="3" fill="currentColor"/><circle cx="17.5" cy="16" r="3" fill="currentColor"/></svg>';
+  const cal='<svg viewBox="0 0 24 24" class="ic"><rect x="3" y="5" width="18" height="16" rx="3" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M3 10h18M8 3v4M16 3v4" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>';
+  const intro=`<div class="intro stats">
+    <div class="stat" title="離音樂祭還有幾天">${cal}<b>${daysLeft()}</b><span>天</span></div>
+    <div class="stat" title="還沒聽的團">${note}<b>${todo}</b><span>團</span></div>
+    <div class="progress"><i data-w="${(total-todo)/total*100}"></i></div></div>`;
+  const bands=q.names.map(n=>BANDS.find(b=>b.name===n)).filter(Boolean);
+  if (q.i>=bands.length){
+    el.innerHTML = intro + `<div class="intro empty">今天的 ${bands.length} 團聽完了。<br><br>
+      ${todo?`<button class="btn go" data-q="more">再來一團</button>`:'52 團都聽完了，結果在「當天清單」。'}</div>`;
+  } else {
+    const b=bands[q.i], slots=Array.from({length:Math.max(q.target,bands.length)},(_,i)=>bands[i]);
+    el.innerHTML = intro + `<div class="qbar"><b>今天第 ${q.i+1} / ${slots.length} 團</b><div class="dots">${slots.map((x,i)=>`<i class="${i===q.i?'cur':x&&done(x)?'done':''}"></i>`).join('')}</div></div>
+      <div class="qstage ${dir==='back'?'back':''}">${card(b,'')}</div>
+      <div class="qnav"><button class="btn" data-q="prev" ${q.i?'':'disabled'}>上一團</button>
+      <button class="btn go ${done(b)?'ready':''}" data-q="next">${done(b)?'下一團':'先跳過'}</button></div>`;
+  }
+  requestAnimationFrame(()=>requestAnimationFrame(()=>el.querySelectorAll('.progress i').forEach(i=>i.style.width=i.dataset.w+'%')));
+}
+function renderAll(){
+  const q=document.getElementById('q').value.trim().toLowerCase();
+  const list=rank(BANDS.filter(b=>!q || (b.name+b.tags.join()+b.desc).toLowerCase().includes(q)));
+  const el=document.getElementById('allList');
+  el.innerHTML = list.map(b=>card(b)).join('') || '<div class="intro empty">沒有符合的團</div>';
+  observe(el);
+}
+function renderList(){
+  const w=tagWeights();
+  document.getElementById('list').innerHTML = ['1219','1220'].map(d=>{
+    const rows=BANDS.filter(b=>b.day===d).map(b=>({b,sc:score(b,w)}))
+      .sort((x,y)=>(y.sc.known-x.sc.known) || y.sc.v-x.sc.v);
+    return `<h2>${dayLabel(d)}</h2>` + rows.map(({b,sc},i)=>{
+      const [cls,lab]=level(sc);
+      return `<div class="row ${cls==='skip'?'dim':''}" style="--i:${i}"><span class="lv ${cls}">${lab}</span>
+        <div><div class="nm">${esc(b.name)}</div><div class="meta">${b.tags.map(esc).join(' · ')}</div></div>
+        <span class="sc">${sc.known?`👍${sc.o.y} 👎${sc.o.n}`:'未評'}</span></div>`;
+    }).join('');
+  }).join('') + `<p class="intro" style="margin-top:18px">評過的團照你喜歡的比例排。沒評的團用你喜歡過的曲風來猜。時刻表出來後再對時間。</p>`;
+}
+function renderCount(bump){
+  const n=BANDS.filter(done).length;
+  document.getElementById('count').innerHTML = `已聽 <b class="${bump?'bump':''}">${n}</b> / ${BANDS.length} 團`;
+}
+function render(){ renderCount(); renderToday(); renderAll(); renderList(); }
+
+// --- motion helpers ---
+function burst(x,y,good){
+  if (RM) return;
+  const chars = good ? ['👍','✦','♪','✸','♫','✦'] : ['💢','✕','·'];
+  chars.forEach((c,i)=>{
+    const s=document.createElement('span'); s.className='fx'; s.textContent=c; document.body.appendChild(s);
+    const a=(-90 + (i-(chars.length-1)/2)*32) * Math.PI/180, d=50+Math.random()*40;
+    s.animate([
+      {transform:`translate(${x}px,${y}px) scale(.4)`,opacity:1},
+      {transform:`translate(${x+Math.cos(a)*d}px,${y+Math.sin(a)*d}px) scale(1.2) rotate(${(Math.random()-.5)*90}deg)`,opacity:0}
+    ],{duration:700,easing:'cubic-bezier(.2,.8,.3,1)'}).onfinish=()=>s.remove();
+  });
+}
+function shake(el){ if(!RM) el.animate([{transform:'translateX(0)'},{transform:'translateX(-6px)'},{transform:'translateX(6px)'},{transform:'translateX(-3px)'},{transform:'translateX(0)'}],{duration:320}); }
+function hopCone(){ const c=document.getElementById('cone'); c.classList.remove('hop'); void c.offsetWidth; c.classList.add('hop'); }
+document.getElementById('cone').addEventListener('animationend', e=>{ if(e.animationName==='hop') e.currentTarget.classList.remove('hop'); });
+document.getElementById('cone').onclick=hopCone;
+
+
+document.addEventListener('click', e=>{
+  const tab=e.target.closest('nav button[data-tab]');
+  if (tab){ document.querySelectorAll('nav button[data-tab]').forEach(b=>b.setAttribute('aria-pressed', b===tab));
+    document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('on', p.id===tab.dataset.tab));
+    if (tab.dataset.tab==='list') renderList(); // replay row stagger
+    if (tab.dataset.tab==='all') renderAll(); // re-sort by what you like now
+    window.scrollTo({top:0,behavior:RM?'auto':'smooth'}); return; }
+  const mb=e.target.closest('.more-btn');
+  if (mb){ const d=mb.closest('article').querySelector('.desc'), open=d.hidden; d.hidden=!open; mb.setAttribute('aria-expanded',open); mb.textContent=open?'收起':'看介紹'; return; }
+  const qb=e.target.closest('[data-q]');
+  if (qb){ const q=queue(), act=qb.dataset.q;
+    if (act==='more') q.target++;
+    else q.i=Math.max(0, q.i+(act==='next'?1:-1));
+    save(); renderToday(act==='prev'?'back':''); document.getElementById('today').scrollIntoView({behavior:RM?'auto':'smooth'}); return; }
+  const btn=e.target.closest('.rate button');
+  if (btn){
+    const k=btn.parentElement.dataset.k, v=btn.classList.contains('y')?1:-1;
+    const art=btn.closest('article'), b=BANDS.find(x=>x.name===art.dataset.b);
+    const wasDone=done(b), r=btn.getBoundingClientRect();
+    if (S.r[k]===v) delete S.r[k]; else { S.r[k]=v; v===1 ? (burst(r.left+r.width/2-9, r.top, true), hopCone()) : shake(art); }
+    save();
+    const nowDone=done(b);
+    // swap just this band's cards in place so nothing jumps
+    document.querySelectorAll('article.band').forEach(a=>{ if(a.dataset.b===b.name) a.outerHTML=card(b,'',nowDone&&!wasDone); });
+    // queue: update dots + next button without re-sliding the card
+    const go=document.querySelector('#today .qnav .go'), cur=document.querySelector('#today .dots i.cur');
+    if (go && document.querySelector('#today article')?.dataset.b===b.name){
+      go.classList.toggle('ready',nowDone); go.textContent=nowDone?'下一團':'先跳過'; }
+    if (cur) cur.classList.toggle('done',nowDone);
+    if (nowDone!==wasDone){ const left=BANDS.filter(x=>!done(x)).length, bs=document.querySelectorAll('#today .intro b');
+      if (bs[1]) bs[1].textContent=left; const p=document.querySelector('#today .progress i'); if(p) p.style.width=(BANDS.length-left)/BANDS.length*100+'%'; }
+    renderCount(nowDone!==wasDone); renderList();
+  }
+});
+document.getElementById('q').addEventListener('input', renderAll);
+document.getElementById('exp').onclick=()=>{
+  const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([JSON.stringify(S,null,1)],{type:'application/json'}));
+  a.download='mudfest-ratings.json'; a.click();
+};
+document.getElementById('imp').onclick=()=>document.getElementById('file').click();
+document.getElementById('file').onchange=async e=>{
+  try { const d=JSON.parse(await e.target.files[0].text()); if(!d.r) throw 0; S=Object.assign(S,d); save(); render(); }
+  catch { alert('檔案格式不對'); }
+};
+
+// --- add to home screen ---
+const standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone;
+const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform==='MacIntel' && navigator.maxTouchPoints>1);
+const isMobile = isIOS || /android/i.test(navigator.userAgent);
+const inst=document.getElementById('install'); let deferred=null;
+addEventListener('beforeinstallprompt', e=>{ e.preventDefault(); deferred=e; if(!standalone) inst.classList.add('show'); });
+if (!standalone && isMobile) inst.classList.add('show');
+inst.onclick=async()=>{
+  if (deferred){ deferred.prompt(); const {outcome}=await deferred.userChoice; if(outcome==='accepted') inst.classList.remove('show'); deferred=null; }
+  else document.getElementById('iosSheet').showModal();
+};
+addEventListener('appinstalled', ()=>inst.classList.remove('show'));
+if ('serviceWorker' in navigator && location.protocol!=='file:') navigator.serviceWorker.register('sw.js');
+
+// title letters drop in one by one
+const h=document.getElementById('title'); let i=0;
+h.innerHTML = h.innerHTML.split('<br>').map(line=>[...line].map(c=>`<span style="--i:${i++}">${c}</span>`).join('')).join('<br>');
+render();
+
+// easter egg: faint mascot drifting like the old DVD screensaver.
+// tap 1: shakes, then bolts far away. tap 2: shakes hard, bolts faster for good. tap 3: off to YouTube.
+(()=>{
+  const egg=document.getElementById('egg'), img=egg.firstElementChild;
+  const SONG='https://www.youtube.com/watch?v=gCa2L_mC3w8&list=RDgCa2L_mC3w8&start_radio=1';
+  let x=Math.random()*(innerWidth-80), y=Math.random()*(innerHeight-90);
+  let a=Math.random()*Math.PI*2, vx=Math.cos(a), vy=Math.sin(a);
+  let speed=60, boost=1, taps=0, frozen=false, last=performance.now();
+  function step(t){
+    const dt=Math.min(.05,(t-last)/1000); last=t;
+    if(!frozen){
+      const w=egg.offsetWidth, h=egg.offsetHeight, v=speed*boost*dt;
+      x+=vx*v; y+=vy*v;
+      if(x<0){x=0;vx=Math.abs(vx)} if(x>innerWidth-w){x=innerWidth-w;vx=-Math.abs(vx)}
+      if(y<0){y=0;vy=Math.abs(vy)} if(y>innerHeight-h){y=innerHeight-h;vy=-Math.abs(vy)}
+      boost=1+(boost-1)*Math.pow(.3,dt); // sprint fades back to cruising
+    }
+    if(leaving) return; // the exit animation owns the transform now
+    egg.style.transform=`translate(${x}px,${y}px) scaleX(${vx<0?-1:1})`;
+    requestAnimationFrame(step);
+  }
+  let leaving=false;
+  // 3rd tap: shake → burst of light → dash up at the address bar → YouTube
+  function leave(){
+    frozen=leaving=true; egg.classList.add('caught');
+    if(RM){ location.href=SONG; return; }
+    const shake=Array.from({length:18},(_,i)=>({transform:`translate(${(Math.random()-.5)*22}px,${(Math.random()-.5)*22}px) rotate(${(i%2?1:-1)*18}deg)`}));
+    img.animate([...shake,{transform:'none'}],{duration:650}).onfinish=()=>{
+      const r=egg.getBoundingClientRect(), cx=r.left+r.width/2, cy=r.top+r.height/2;
+      const ring=document.createElement('span'); ring.className='fx eggring'; document.body.appendChild(ring);
+      ring.animate([{transform:`translate(${cx}px,${cy}px) translate(-50%,-50%) scale(.2)`,opacity:1},{transform:`translate(${cx}px,${cy}px) translate(-50%,-50%) scale(4)`,opacity:0}],{duration:500,easing:'ease-out'}).onfinish=()=>ring.remove();
+      for(let i=0;i<16;i++){
+        const s=document.createElement('span'); s.className='fx'; s.textContent=i%3?'✦':'♪'; s.style.color='#fff'; document.body.appendChild(s);
+        const a=i/16*Math.PI*2, d=70+Math.random()*60;
+        s.animate([{transform:`translate(${cx-9}px,${cy-12}px) scale(.5)`,opacity:1},{transform:`translate(${cx-9+Math.cos(a)*d}px,${cy-12+Math.sin(a)*d}px) scale(1.3)`,opacity:0}],{duration:550,easing:'cubic-bezier(.2,.8,.3,1)'}).onfinish=()=>s.remove();
+      }
+      img.animate([{transform:'scale(1)',filter:'none'},{transform:'scale(1.7)',filter:'drop-shadow(0 0 14px #fff) drop-shadow(0 0 28px #ffd21f)'}],{duration:320,easing:'ease-out',fill:'forwards'}).onfinish=()=>{
+        const from=`translate(${x}px,${y}px)`, to=`translate(${innerWidth/2-r.width/2}px,${-r.height*3}px)`;
+        egg.animate([{transform:from+' rotate(0) scale(1)'},{transform:from+' translateY(16px) rotate(-20deg) scale(1.1)',offset:.2},{transform:to+' rotate(540deg) scale(.35)'}],{duration:520,easing:'cubic-bezier(.6,0,.9,.4)',fill:'forwards'})
+          .onfinish=()=>{ location.href=SONG; };
+      };
+    };
+  }
+  requestAnimationFrame(step);
+  egg.addEventListener('click', e=>{
+    if(frozen) return;
+    if(++taps>=3){ leave(); return; }
+    frozen=true; egg.classList.add('caught');
+    const hard=taps===2, amp=hard?14:5;
+    const frames=Array.from({length:hard?14:8},(_,i)=>({transform:`translate(${(i%2?1:-1)*amp}px,${hard?(Math.random()-.5)*amp:0}px) rotate(${(i%2?1:-1)*(hard?14:4)}deg)`}));
+    img.animate([...frames,{transform:'none'}],{duration:hard?750:450}).onfinish=()=>{
+      // run directly away from the tap
+      const r=egg.getBoundingClientRect(), dx=r.left+r.width/2-e.clientX, dy=r.top+r.height/2-e.clientY, d=Math.hypot(dx,dy)||1;
+      vx=dx/d||1; vy=dy/d||.5;
+      boost=hard?28:16; if(hard) speed*=2;
+      frozen=false; egg.classList.remove('caught');
+    };
+  });
+})();
+</script>
+</body>
+</html>
