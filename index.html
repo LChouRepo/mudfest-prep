@@ -453,12 +453,26 @@ render();
     requestAnimationFrame(step);
   }
   let leaving=false;
+  // Phones only hand a link to the YouTube app when it comes from a tap. The whole exit runs in under 1s,
+  // inside the window where the browser still counts it as your tap, and uses the app's own link:
+  // Android: intent link (falls back to the web page if the app isn't installed).
+  // iPhone: youtube:// link; if the app doesn't open within 1.5s, go to the web page instead.
+  function openYouTube(){
+    const id='gCa2L_mC3w8', path=`www.youtube.com/watch?v=${id}&list=RD${id}&start_radio=1`;
+    if(/android/i.test(navigator.userAgent)){
+      location.href=`intent://${path}#Intent;scheme=https;package=com.google.android.youtube;S.browser_fallback_url=${encodeURIComponent(SONG)};end`; return; }
+    if(isIOS){
+      const t=setTimeout(()=>{ if(!document.hidden) location.href=SONG; },1500);
+      document.addEventListener('visibilitychange',()=>{ if(document.hidden) clearTimeout(t); },{once:true});
+      location.href='youtube://'+path; return; }
+    location.href=SONG;
+  }
   // 3rd tap: shake → burst of light → dash up at the address bar → YouTube
   function leave(){
     frozen=leaving=true; egg.classList.add('caught');
-    if(RM){ location.href=SONG; return; }
-    const shake=Array.from({length:18},(_,i)=>({transform:`translate(${(Math.random()-.5)*22}px,${(Math.random()-.5)*22}px) rotate(${(i%2?1:-1)*18}deg)`}));
-    img.animate([...shake,{transform:'none'}],{duration:650}).onfinish=()=>{
+    if(RM){ openYouTube(); return; }
+    const shake=Array.from({length:10},(_,i)=>({transform:`translate(${(Math.random()-.5)*22}px,${(Math.random()-.5)*22}px) rotate(${(i%2?1:-1)*18}deg)`}));
+    img.animate([...shake,{transform:'none'}],{duration:340}).onfinish=()=>{
       const r=egg.getBoundingClientRect(), cx=r.left+r.width/2, cy=r.top+r.height/2;
       const ring=document.createElement('span'); ring.className='fx eggring'; document.body.appendChild(ring);
       ring.animate([{transform:`translate(${cx}px,${cy}px) translate(-50%,-50%) scale(.2)`,opacity:1},{transform:`translate(${cx}px,${cy}px) translate(-50%,-50%) scale(4)`,opacity:0}],{duration:500,easing:'ease-out'}).onfinish=()=>ring.remove();
@@ -467,10 +481,10 @@ render();
         const a=i/16*Math.PI*2, d=70+Math.random()*60;
         s.animate([{transform:`translate(${cx-9}px,${cy-12}px) scale(.5)`,opacity:1},{transform:`translate(${cx-9+Math.cos(a)*d}px,${cy-12+Math.sin(a)*d}px) scale(1.3)`,opacity:0}],{duration:550,easing:'cubic-bezier(.2,.8,.3,1)'}).onfinish=()=>s.remove();
       }
-      img.animate([{transform:'scale(1)',filter:'none'},{transform:'scale(1.7)',filter:'drop-shadow(0 0 14px #fff) drop-shadow(0 0 28px #ffd21f)'}],{duration:320,easing:'ease-out',fill:'forwards'}).onfinish=()=>{
+      img.animate([{transform:'scale(1)',filter:'none'},{transform:'scale(1.7)',filter:'drop-shadow(0 0 14px #fff) drop-shadow(0 0 28px #ffd21f)'}],{duration:170,easing:'ease-out',fill:'forwards'}).onfinish=()=>{
         const from=`translate(${x}px,${y}px)`, to=`translate(${innerWidth/2-r.width/2}px,${-r.height*3}px)`;
-        egg.animate([{transform:from+' rotate(0) scale(1)'},{transform:from+' translateY(16px) rotate(-20deg) scale(1.1)',offset:.2},{transform:to+' rotate(540deg) scale(.35)'}],{duration:520,easing:'cubic-bezier(.6,0,.9,.4)',fill:'forwards'})
-          .onfinish=()=>{ location.href=SONG; };
+        egg.animate([{transform:from+' rotate(0) scale(1)'},{transform:from+' translateY(16px) rotate(-20deg) scale(1.1)',offset:.2},{transform:to+' rotate(540deg) scale(.35)'}],{duration:380,easing:'cubic-bezier(.6,0,.9,.4)',fill:'forwards'})
+          .onfinish=openYouTube;
       };
     };
   }
