@@ -126,14 +126,17 @@ ol.songs.extra li{animation:rowIn .5s var(--ease) both;animation-delay:calc(var(
 .row .nm{font-weight:900}.row .meta{font-size:12px;color:var(--muted)}
 .row .sc{font:700 13px var(--body);white-space:nowrap}
 .row.dim{opacity:.6}
-.filters{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 14px}
+.fbox{background:var(--paper);border:var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:10px 12px 4px;margin:6px 0 14px}
+.fbox .sorts{margin:0 -4px;padding:2px 4px 8px;flex-wrap:wrap;overflow:visible}
+.search{display:flex;align-items:center;gap:8px;border-bottom:2px dashed color-mix(in srgb,var(--ink) 30%,transparent);padding:0 2px 8px;margin-bottom:8px}
+.search svg{width:18px;height:18px;flex:none;opacity:.7}
+.search input{flex:1;min-width:0;font:700 15px var(--body);border:0;background:none;color:var(--ink);outline:none;padding:4px 0}
 .sorts{display:flex;gap:6px;align-items:center;overflow-x:auto;scrollbar-width:none;margin:-4px 0 14px;padding:2px 2px 6px;font-size:12px;font-weight:700}
 .sorts .sep{flex:none;width:1px;align-self:stretch;margin:4px 4px;background:color-mix(in srgb,var(--ink) 30%,transparent)}
-.fcount{font-size:12px;font-weight:700;margin:-8px 0 12px;opacity:.8}
+.fcount{font-size:12px;font-weight:700;margin:-6px 0 12px;opacity:.8}
 .sorts button{font:700 13px var(--body);border:var(--border);background:var(--paper);color:var(--ink);border-radius:99px;padding:6px 12px;cursor:pointer;white-space:nowrap;transition:transform .2s var(--ease)}
 .sorts button:active{transform:scale(.92)}
 .sorts button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
-.filters input{flex:1;min-width:180px;font:700 15px var(--body);border:var(--border);border-radius:99px;padding:8px 14px;background:var(--paper);color:var(--ink)}
 .tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:24px}
 .tools .btn{font-size:13px;box-shadow:none}
 footer{font-size:12px;opacity:.75;margin-top:30px}
@@ -208,9 +211,11 @@ dialog h3{margin:0 0 6px;font-family:var(--display)}
 
   <section class="panel on" id="today"></section>
   <section class="panel" id="all">
-    <div class="filters"><input id="q" placeholder="搜團名、曲風（例：龐克、後搖）"></div>
+    <div class="fbox">
+    <label class="search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M15.5 15.5L21 21" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg><input id="q" type="search" placeholder="團名、歌名、曲風、像誰"></label>
     <div class="sorts" data-f="day"><button data-v="1219">12/19 六</button><button data-v="1220">12/20 日</button><span class="sep"></span><button data-v="todo" data-f="st">還沒聽</button><button data-v="done" data-f="st">聽完了</button><button data-v="like" data-f="st">我喜歡的</button></div>
     <div class="sorts" data-f="g"><button data-v="punk">龐克</button><button data-v="indie">獨立／另類</button><button data-v="pop">流行</button><button data-v="emo">情緒／emo</button><button data-v="hard">硬核／金屬</button><button data-v="psy">迷幻／實驗</button><button data-v="tw">台語／客語</button></div>
+    </div>
     <div class="fcount" id="fcount"></div>
     <div id="allList"></div>
   </section>
@@ -300,14 +305,14 @@ function rateRow(label, k){
   const v=S.r[k];
   return `<div class="rate" data-k="${esc(k)}"><button class="y" aria-label="喜歡 ${esc(label)}" aria-pressed="${v===1}">👍</button><button class="n" aria-label="不喜歡 ${esc(label)}" aria-pressed="${v===-1}">👎</button></div>`;
 }
-function card(b, cls='pre', fresh=false){
+function card(b, cls='pre', fresh=false, showAll=false){
   const o=own(b), [,lab]=level(score(b,tagWeights()));
   const li = (s,i) => {
     const v=S.r[songKey(b,s)];
     return `<li style="--i:${i}" class="${v===1?'yes':v===-1?'no':''}"><div class="song"><span>${esc(s)}</span> <small><a href="${yt(b.name+' '+s)}" target="_blank" rel="noopener">YouTube</a><a href="${spS(b.name+' '+s)}" target="_blank" rel="noopener">Spotify</a></small></div>${rateRow(s, songKey(b,s))}</li>`;
   };
   const extra = b.songs.slice(FIRST);
-  const songs = b.songs.slice(0,FIRST).map(li).join('') + (extra.length && likedFirst(b)
+  const songs = b.songs.slice(0,FIRST).map(li).join('') + (extra.length && (likedFirst(b) || showAll)
     ? `</ol><div class="more">喜歡的話，這團還有 ${extra.length} 首</div><ol class="songs extra">${extra.map(li).join('')}` : '');
   const noSongs = `<div class="warn">查不到可靠的歌單，直接搜團名聽。</div>
     <ol class="songs"><li><div class="song"><span>聽完整體覺得如何？</span></div>${rateRow(b.name, b.name+'::seen')}</li></ol>`;
@@ -363,13 +368,14 @@ function renderAll(){
   const f=S.f||{}, w=tagWeights();
   document.querySelectorAll('#all .sorts button').forEach(x=>{ const k=x.dataset.f||x.parentElement.dataset.f; x.setAttribute('aria-pressed', f[k]===x.dataset.v); });
   const list=rank(BANDS.filter(b=>
-    (!q || (b.name+b.tags.join()+b.desc).toLowerCase().includes(q)) &&
+    (!q || [b.name, ...b.songs, ...b.tags, b.desc, ...(b.like||[])].join(' ').toLowerCase().includes(q)) &&
     (!f.day || b.day===f.day) &&
     (!f.st || (f.st==='todo'?!done(b) : f.st==='done'?done(b) : own(b).rated && score(b,w).v>=.5)) &&
     (!f.g || b.tags.some(t=>G[f.g].some(k=>t.includes(k))))));
   document.getElementById('fcount').textContent = (q||f.day||f.st||f.g) ? `符合 ${list.length} 團` : '';
   const el=document.getElementById('allList');
-  el.innerHTML = list.map(b=>card(b)).join('') || '<div class="intro empty">沒有符合的團</div>';
+  // a search hit on a not-yet-unlocked song still shows that song
+  el.innerHTML = list.map(b=>card(b,'pre',false, !!q && b.songs.slice(FIRST).some(x=>x.toLowerCase().includes(q)))).join('') || '<div class="intro empty">沒有符合的團</div>';
   observe(el);
 }
 function renderList(){
