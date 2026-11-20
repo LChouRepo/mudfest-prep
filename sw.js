@@ -1,5 +1,5 @@
 // offline: serve from cache instantly, refresh cache in background (festival grass = bad signal)
-const C = 'mudfest-v7';
+const C = 'mudfest-v8';
 const SHELL = ['./', 'index.html', 'bands.js', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'mascot.png'];
 self.addEventListener('install', e => { e.waitUntil(caches.open(C).then(c => c.addAll(SHELL))); self.skipWaiting(); });
 self.addEventListener('activate', e => e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== C).map(k => caches.delete(k)))).then(() => self.clients.claim())));

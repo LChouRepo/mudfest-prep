@@ -166,7 +166,7 @@ dialog h3{margin:0 0 6px;font-family:var(--display)}
     <div class="hside"><button class="btn install" id="install">加到主畫面</button><div class="count" id="count"></div></div>
   </header>
   <nav>
-    <button data-tab="today" aria-pressed="true">今日功課</button>
+    <button data-tab="today" aria-pressed="true">今日推薦</button>
     <button data-tab="all" aria-pressed="false">全部樂團</button>
     <button data-tab="list" aria-pressed="false">當天清單</button>
   </nav>
@@ -314,7 +314,7 @@ function renderToday(dir){
     el.innerHTML = intro + `<div class="qbar"><b>今天第 ${q.i+1} / ${slots.length} 團</b><div class="dots">${slots.map((x,i)=>`<i class="${i===q.i?'cur':x&&done(x)?'done':''}"></i>`).join('')}</div></div>
       <div class="qstage ${dir==='back'?'back':''}">${card(b,'')}</div>
       <div class="qnav"><button class="btn" data-q="prev" ${q.i?'':'disabled'}>上一團</button>
-      <button class="btn go ${done(b)?'ready':''}" data-q="next">${done(b)?'下一團':'先跳過'}</button></div>`;
+      <button class="btn go ${done(b)?'ready':''}" data-q="next">${done(b)?'下一團':'換一批'}</button></div>`;
   }
   requestAnimationFrame(()=>requestAnimationFrame(()=>el.querySelectorAll('.progress i').forEach(i=>i.style.width=i.dataset.w+'%')));
 }
@@ -375,6 +375,12 @@ document.addEventListener('click', e=>{
   const qb=e.target.closest('[data-q]');
   if (qb){ const q=queue(), act=qb.dataset.q;
     if (act==='more') q.target++;
+    else if (act==='next' && !done(BANDS.find(b=>b.name===q.names[q.i]))){
+      // 換一批: swap this band for another one instead of using up today's slot
+      q.skip=[...(q.skip||[]), q.names[q.i]];
+      const n=nextBest([...q.names, ...q.skip])[0];
+      if (n) q.names[q.i]=n.name; else q.i++;
+    }
     else q.i=Math.max(0, q.i+(act==='next'?1:-1));
     save(); renderToday(act==='prev'?'back':''); document.getElementById('today').scrollIntoView({behavior:RM?'auto':'smooth'}); return; }
   const btn=e.target.closest('.rate button');
@@ -390,7 +396,7 @@ document.addEventListener('click', e=>{
     // queue: update dots + next button without re-sliding the card
     const go=document.querySelector('#today .qnav .go'), cur=document.querySelector('#today .dots i.cur');
     if (go && document.querySelector('#today article')?.dataset.b===b.name){
-      go.classList.toggle('ready',nowDone); go.textContent=nowDone?'下一團':'先跳過'; }
+      go.classList.toggle('ready',nowDone); go.textContent=nowDone?'下一團':'換一批'; }
     if (cur) cur.classList.toggle('done',nowDone);
     if (nowDone!==wasDone){ const left=BANDS.filter(x=>!done(x)).length, bs=document.querySelectorAll('#today .intro b');
       if (bs[1]) bs[1].textContent=left; const p=document.querySelector('#today .progress i'); if(p) p.style.width=(BANDS.length-left)/BANDS.length*100+'%'; }
